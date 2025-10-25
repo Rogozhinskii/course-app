@@ -3,7 +3,7 @@ import "./style.css"
 
 import gitLogo from "./gitHub.svg"
 import vkLogo from "./vk.svg"
-import lnLogo from "./linkedIn.svg"
+import {ButtonIcon} from "../ButtonIcon/ButtonIcon";
 
 
 export const Footer = () => {
@@ -13,13 +13,10 @@ export const Footer = () => {
                 <div className="footer__wrapper">
                     <ul className="social">
                         <li className="social__item">
-                            <a href="#!"><img src={gitLogo} alt="icon"/></a>
+                            <ButtonIcon link={"https://github.com"} imgUrl={gitLogo} text={""} btnStyle={"none"}/>
                         </li>
                         <li className="social__item">
-                            <a href="#!"><img src={vkLogo} alt="icon"/></a>
-                        </li>
-                        <li className="social__item">
-                            <a href="#!"><img src={lnLogo} alt="icon"/></a>
+                            <ButtonIcon link={"https://vk.ru"} imgUrl={vkLogo} text={""} btnStyle={"none"}/>
                         </li>
                     </ul>
                     <div className="copyright">

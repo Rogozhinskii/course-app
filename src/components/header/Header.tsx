@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./style.css"
 
 export const Header = () => {
@@ -6,19 +7,16 @@ export const Header = () => {
         <header className="header">
             <div className="header__wrapper">
                 <h1 className="header__title">
-                    <strong>Здесь должен быть</strong> <em>Вай</em> <br/>
-                    текст заголовка
+                    <strong>Добро пожаловать в</strong> <em>Awesome Courses</em> <br/>
+                    Ваше пространство для обучения и творчества
                 </h1>
                 <div className="header__text">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officiis ducimus, accusamus
-                        veniam
-                        nulla
-                        explicabo ex est minus voluptate earum? Quasi atque consequuntur exercitationem
-                        laudantium
-                        impedit
-                        qui, earum molestias rem commodi.</p>
+                    <p>Awesome Courses — это интерактивная платформа, где вы можете изучать готовые курсы, смотреть
+                        видеоуроки,
+                        проходить тесты и создавать собственные обучающие материалы. Развивайтесь в удобном темпе,
+                        делитесь знаниями и вдохновляйте других.</p>
                 </div>
-                <a href="!#" className="btn">Download</a>
+                <NavLink className="btn" to="/projects">Quick Start</NavLink>
             </div>
         </header>
     )

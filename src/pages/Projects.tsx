@@ -1,5 +1,7 @@
 import React from "react";
 import {Project, ProjectType} from "../components/project/Project";
+import "./style.css"
+
 
 export interface IProjectsProps {
     projects: ProjectType[];

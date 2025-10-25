@@ -1,7 +1,9 @@
 import React from "react";
-import {BtnGitHub} from "../components/btnGitHub/BtnGithub";
 import {useParams} from 'react-router-dom'
 import {ProjectType} from "../components/project/Project";
+import {ButtonIcon} from "../components/ButtonIcon/ButtonIcon";
+import gitIcon from "./../img/icons/gitHub-black.svg"
+import "./style.css"
 
 export interface IProjectInfoProps {
     projects: ProjectType[]
@@ -22,8 +24,7 @@ export const ProjectInfo = (props: IProjectInfoProps) => {
                         <p>{project?.skills}</p>
                     </div>
 
-                    <BtnGitHub />
-
+                    <ButtonIcon text={"Some button"} link={"https://github.com"} imgUrl={gitIcon} btnStyle={"btn-outline"} />
                 </div>
             </div>
         </main>
