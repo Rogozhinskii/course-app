@@ -19,6 +19,8 @@ import project05big from "./img/projects/05-big.jpg"
 import project06 from "./img/projects/06.jpg"
 import project06big from "./img/projects/06-big.jpg"
 import {ProjectInfo} from "./pages/ProjectInfo";
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {Contacts} from "./pages/Contacts";
 
 function App() {
 
@@ -67,21 +69,20 @@ function App() {
         },
 
     ]
-
+    console.log(projects);
     return (
         <div className="App">
-            <Navbar />
-            {/*  <Home/>*/}
-            {/*<Projects projects={projects} />*/}
-            <ProjectInfo id={projects[0].id} title={projects[0].title} skills={projects[0].skills} image={projects[0].imageUri} />
-            <Footer />
-            {/*<div className="page">
-                <Navbar />
-                <Home/>
-                <Projects />
-                <Contacts/>
-                <Footer />
-            </div>*/}
+            <Router>
+                <Navbar/>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/projects" element={<Projects projects={projects}/>}/>
+                    <Route path="/project/:id" element={<ProjectInfo projects={projects}/>}/>
+                    <Route path="/contacts" element={<Contacts/>}/>
+                </Routes>
+                <Footer/>
+
+            </Router>
         </div>
     );
 }

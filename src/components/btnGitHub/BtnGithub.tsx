@@ -5,7 +5,7 @@ import "./style.css"
 
 export const BtnGitHub = () => {
     return (
-        <a href="!#" className="btn-outline">
+        <a href="!#" target="_blank" rel="noreferrer" className="btn-outline">
             <img src={git} alt=""/>
             Some button
         </a>

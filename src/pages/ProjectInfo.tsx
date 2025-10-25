@@ -1,23 +1,25 @@
 import React from "react";
 import {BtnGitHub} from "../components/btnGitHub/BtnGithub";
+import {useParams} from 'react-router-dom'
+import {ProjectType} from "../components/project/Project";
 
 export interface IProjectInfoProps {
-    id: string;
-    title: string;
-    skills: string;
-    image: string;
+    projects: ProjectType[]
 }
 
 export const ProjectInfo = (props: IProjectInfoProps) => {
+    const {id} = useParams();
+    const project = props.projects.find((project) => project.id === id);
+
     return (
         <main className="section">
             <div className="container">
                 <div className="project-details">
-                    <h2 className="title-1">{props.title}</h2>
+                    <h2 className="title-1">{project?.title}</h2>
 
-                    <img src={props.image} alt="" className="project-details__cover"/>
+                    <img src={project?.imageBig} alt="" className="project-details__cover"/>
                     <div className="project-details__desc">
-                        <p>{props.skills}</p>
+                        <p>{project?.skills}</p>
                     </div>
 
                     <BtnGitHub />
