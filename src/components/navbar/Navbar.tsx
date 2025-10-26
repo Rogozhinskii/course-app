@@ -20,13 +20,13 @@ export const Navbar = () => {
                     </NavLink>
                     <ul className="nav-list">
                         <li className="nav-list__item">
-                            <NavLink to="/" className={({isActive}) => getClassName(isActive)}>Home</NavLink>
+                            <NavLink to="/" className={({isActive}) => getClassName(isActive)}>Домой</NavLink>
                         </li>
                         <li className="nav-list__item">
-                            <NavLink to="/projects" className={({isActive}) => getClassName(isActive)}>Projects</NavLink>
+                            <NavLink to="/courses" className={({isActive}) => getClassName(isActive)}>Курсы</NavLink>
                         </li>
                         <li className="nav-list__item">
-                            <NavLink to="/contacts" className={({isActive}) => getClassName(isActive)}>Contacts</NavLink>
+                            <NavLink to="/contacts" className={({isActive}) => getClassName(isActive)}>Контакты</NavLink>
                         </li>
                     </ul>
                 </div>

@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css"
+import {Link} from "react-router-dom";
 
 export interface IButtonIconProps {
     link: string;
@@ -10,17 +11,17 @@ export interface IButtonIconProps {
 
 type BtnStyles = "btn" | "btn-outline" | "none";
 
-export const ButtonIcon = (props: IButtonIconProps) => {
+export const LinkButton = (props: IButtonIconProps) => {
 
     return (
-        <a href={props.link}
-           className={props.btnStyle}
-           target="_blank"
-           rel="noopener noreferrer">
+        <Link to={props.link}
+              className={props.btnStyle}
+              target="_blank"
+              rel="noopener noreferrer"
+        >
             <img src={props.imgUrl} alt="icon"/>
-
             {props.text}
-        </a>
+        </Link>
     )
 }
 

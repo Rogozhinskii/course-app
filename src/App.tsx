@@ -3,9 +3,9 @@ import "./styles/main.css"
 import {Navbar} from "./components/navbar/Navbar";
 import {Footer} from "./components/footer/Footer";
 import {Home} from "./pages/Home";
-import {Projects} from "./pages/Projects";
+import {Courses} from "./pages/Courses";
 import {v1} from "uuid";
-import {ProjectType} from "./components/project/Project";
+import {CourseType} from "./components/course/Course";
 import project01 from "./img/projects/01.jpg"
 import project01big from "./img/projects/01-big.jpg"
 import project02 from "./img/projects/02.jpg"
@@ -18,13 +18,14 @@ import project05 from "./img/projects/05.jpg"
 import project05big from "./img/projects/05-big.jpg"
 import project06 from "./img/projects/06.jpg"
 import project06big from "./img/projects/06-big.jpg"
-import {ProjectInfo} from "./pages/ProjectInfo";
+import {CourseInfo} from "./pages/CourseInfo";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import {Contacts} from "./pages/Contacts";
+import {CreateCourse} from "./components/createCource/CreateCourse";
 
 function App() {
 
-    let projects: ProjectType[] = [
+    let courses: CourseType[] = [
         {
             id: v1(),
             title: "Gaming streaming portal",
@@ -69,15 +70,16 @@ function App() {
         },
 
     ]
-    console.log(projects);
+
     return (
         <div className="App">
             <Router>
                 <Navbar/>
                 <Routes>
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/projects" element={<Projects projects={projects}/>}/>
-                    <Route path="/project/:id" element={<ProjectInfo projects={projects}/>}/>
+                    <Route path="/courses" element={<Courses courses={courses}/>}/>
+                    <Route path="/course/:id" element={<CourseInfo courses={courses}/>}/>
+                    <Route path="/course/create" element={<CreateCourse/>}/>
                     <Route path="/contacts" element={<Contacts/>}/>
                 </Routes>
                 <Footer/>

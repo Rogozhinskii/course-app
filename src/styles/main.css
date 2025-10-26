@@ -12,12 +12,18 @@ font-family: "DM Sans", sans-serif;
     --black-border: #26292D;
     --white: #fff;
     --purple: #5c62ec;
+    --red: #ef4444;
+    --bright-blue: #3b82f6;
+    --light-gray: #ccc;
+    --medium-gray: #aaa;
 
     --page-text-color: var(--black);
     --dark-bd: var(--black);
     --dark-border: var(--black-border);
     --header-text: var(--white);
     --acent: var(--purple);
+    --error: var(--red);
+    --input-border: var(--light-gray);
 }
 
 .html, body {
@@ -40,7 +46,7 @@ font-family: "DM Sans", sans-serif;
 .container {
     margin: 0 auto;
     padding: 0 15px;
-    max-width: 1200px;
+    max-width: 1440px;
 }
 
 
@@ -68,7 +74,6 @@ font-family: "DM Sans", sans-serif;
     color: var(--black);
     line-height: 1.3;
 }
-
 
 
 .content-list {

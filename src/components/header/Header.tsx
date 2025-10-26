@@ -16,7 +16,7 @@ export const Header = () => {
                         проходить тесты и создавать собственные обучающие материалы. Развивайтесь в удобном темпе,
                         делитесь знаниями и вдохновляйте других.</p>
                 </div>
-                <NavLink className="btn" to="/projects">Quick Start</NavLink>
+                <NavLink className="btn" to="/courses">Quick Start</NavLink>
             </div>
         </header>
     )

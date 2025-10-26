@@ -45,7 +45,7 @@ export const Home = () => {
             <Header/>
             <main className="section">
                 <div className="container">
-                    <div className="project-details">
+                    <div className="course-details">
                         <h2 className="title-1">Основные направления</h2>
 
                         <ul className="content-list">
