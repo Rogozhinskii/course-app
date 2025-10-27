@@ -1,18 +1,19 @@
 import React from "react";
 import {useParams} from 'react-router-dom'
-import {CourseType} from "../components/course/Course";
+import {CourseType} from "../components/course/CourseCard";
 import {LinkButton} from "../components/buttonIcon/LinkButton";
 import gitIcon from "./../img/icons/gitHub-black.svg"
 import "./style.css"
+import {useAppSelector} from "../state/store";
 
 export interface IProjectInfoProps {
     courses: CourseType[]
 }
 
-export const CourseInfo = (props: IProjectInfoProps) => {
+export const CourseInfo = () => {
     const {id} = useParams();
-    const course = props.courses.find((c) => c.id === id);
-
+    const state = useAppSelector(state => state.coursesState);
+    const course = state.courses.find((course) => course.id === id);
     return (
         <main className="section">
             <div className="container">

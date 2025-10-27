@@ -15,7 +15,7 @@ export interface ICourseProps {
     course: CourseType;
 }
 
-export const Course = (props: ICourseProps) => {
+export const CourseCard = (props: ICourseProps) => {
     return (
         <NavLink to={`/course/${props.course.id}`}>
             <li className="course">

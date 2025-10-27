@@ -1,0 +1,46 @@
+{
+  "courses": [
+    {
+      "id": "738b3900-b368-11f0-b5f2-1505cd9aedfa",
+      "title": "Gaming streaming portal",
+      "skills": "Bla-bla-bla",
+      "imageUri": "http://localhost:4000/projects/01.jpg",
+      "imageBig": "http://localhost:4000/projects/01-big.jpg"
+    },
+    {
+      "id": "3d14ae81-b370-11f0-b436-b5d43ebb1da7",
+      "title": "Video service",
+      "skills": "Bla-bla-bla",
+      "imageUri": "http://localhost:4000/projects/02.jpg",
+      "imageBig": "http://localhost:4000/projects/02-big.jpg"
+    },
+    {
+      "id": "3d14ae82-b370-11f0-b436-b5d43ebb1da7",
+      "title": "Video portal",
+      "skills": "Bla-bla-bla",
+      "imageUri": "http://localhost:4000/projects/03.jpg",
+      "imageBig": "http://localhost:4000/projects/03-big.jpg"
+    },
+    {
+      "id": "3d14ae83-b370-11f0-b436-b5d43ebb1da7",
+      "title": "Dating app",
+      "skills": "Bla-bla-bla",
+      "imageUri": "http://localhost:4000/projects/04.jpg",
+      "imageBig": "http://localhost:4000/projects/04-big.jpg"
+    },
+    {
+      "id": "3d14ae84-b370-11f0-b436-b5d43ebb1da7",
+      "title": "Landing",
+      "skills": "Bla-bla-bla",
+      "imageUri": "http://localhost:4000/projects/05.jpg",
+      "imageBig": "http://localhost:4000/projects/05-big.jpg"
+    },
+    {
+      "id": "3d14ae85-b370-11f0-b436-b5d43ebb1da7",
+      "title": "Gaming community",
+      "skills": "Bla-bla-bla",
+      "imageUri": "http://localhost:4000/projects/06.jpg",
+      "imageBig": "http://localhost:4000/projects/06-big.jpg"
+    }
+  ]
+}
