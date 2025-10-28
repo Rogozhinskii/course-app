@@ -1,10 +1,12 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {useDispatch, useSelector} from "react-redux";
 import {coursesReducer} from "./courses-reducer";
+import {directionInfoReducer} from "./directionInfo-reducer";
 
 
 const rootReducer = combineReducers({
-    coursesState: coursesReducer
+    coursesState: coursesReducer,
+    directionsInfosState: directionInfoReducer
 })
 
 export const store = configureStore({

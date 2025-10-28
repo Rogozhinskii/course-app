@@ -5,16 +5,17 @@ import {Filter} from "../components/filter/Filter";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {requestCourses} from "../state/courses-reducer";
+import {Spinner} from "../components/spinner/Spinner";
 
 export const Courses = () => {
 
     const dispatch = useAppDispatch();
     useEffect(() => {
-        debugger
         dispatch(requestCourses())
     }, []);
+
     const state = useAppSelector(state => state.coursesState);
-    debugger
+
     return (
         <main className="section">
             <div className="container">
@@ -27,13 +28,19 @@ export const Courses = () => {
                         </div>
                         <ul className="courses">
                             {
-                                state.courses.map((c) => <CourseCard key={c.id} course={c} />)
+                                state.isFetching ? (
+                                    <Spinner/>
+                                ) : (
+                                    state.courses.map((c) =>
+                                        <CourseCard key={c.id}
+                                                    id={c.id}
+                                                    title={c.title}
+                                                    image={c.image}/>)
+                                )
                             }
                         </ul>
                     </div>
-
                 </div>
-
             </div>
         </main>
     )

@@ -1,11 +1,5 @@
 import React from "react";
-
-
-export interface IDirectionInfoProps {
-    id: string;
-    title: string;
-    description: string;
-}
+import {IDirectionInfoProps} from "../../interfaces/IDirectionInfoProps";
 
 export const DirectionInfo = (props: IDirectionInfoProps) => {
     return (

@@ -1,26 +1,23 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import "./style.css"
+import {ICourseCardProps} from "../../interfaces/ICourseCardProps";
 
 
 export type CourseType = {
     id: string;
     title: string;
     skills: string,
-    imageUri: string;
-    imageBig: string;
+    image: string;
 }
 
-export interface ICourseProps {
-    course: CourseType;
-}
 
-export const CourseCard = (props: ICourseProps) => {
+export const CourseCard = (props: ICourseCardProps) => {
     return (
-        <NavLink to={`/course/${props.course.id}`}>
+        <NavLink to={`/course/${props.id}`}>
             <li className="course">
-                <img className="course__image" src={props.course.imageUri} alt="project img"/>
-                <h3 className="course__title">{props.course.title}</h3>
+                <img className="course__image" src={props.image} alt="project img"/>
+                <h3 className="course__title">{props.title}</h3>
             </li>
         </NavLink>
     )

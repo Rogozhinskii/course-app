@@ -8,8 +8,7 @@ export type AddCourseAction = {
     type: "ADD-COURSE",
     title: string;
     skills: string;
-    imageUri: string;
-    imageBig: string;
+    image: string;
 }
 
 export type SetCoursesActionType = {
@@ -54,8 +53,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                     id: v1(),
                     title: action.title,
                     skills: action.skills,
-                    imageUri: action.imageUri,
-                    imageBig: action.imageBig
+                    image: action.image
                 }, ...stateCopy.courses]
             return stateCopy
         }
@@ -66,8 +64,8 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
     }
 }
 
-export const addCourceAC = (title: string, skills: string, imageUri: string, imageBig: string): AddCourseAction => {
-    return {type: "ADD-COURSE", title: title, skills: skills, imageUri: imageUri, imageBig: imageBig};
+export const addCourceAC = (title: string, skills: string, image: string): AddCourseAction => {
+    return {type: "ADD-COURSE", title: title, skills: skills, image: image};
 }
 
 export const setCoursesAC = (courses: CourseType[]): SetCoursesActionType => {
@@ -83,7 +81,7 @@ type ThunkType = ThunkAction<Promise<void>, AppRootState, unknown, ActionsType>
 export const requestCourses = (): ThunkType => {
 
     return async (dispatch, getState) => {
-        debugger
+
         dispatch(toggleIsFetchingAC(true));
         let data = await coursesAPI.getCourses();
         dispatch(toggleIsFetchingAC(false));
