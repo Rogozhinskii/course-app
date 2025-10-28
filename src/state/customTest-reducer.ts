@@ -4,7 +4,7 @@ import {IQuestion} from "../interfaces/IQuestion";
 import {ThunkAction} from "@reduxjs/toolkit";
 import {AppRootState} from "./store";
 import {coursesAPI, ResponseStatus} from "./api";
-import {toggleIsFetchingAC, ToggleIsFetchingActionType} from "../interfaces/CommonActions";
+import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 
 export type AddCustomTestAction = {
     type: "ADD-CUSTOM-TEST"
@@ -14,10 +14,14 @@ export type AddCustomTestAction = {
     questions: IQuestion[];
 }
 
-type ActionsType = AddCustomTestAction | ToggleIsFetchingActionType
+type ActionsType = AddCustomTestAction | SetLoadingAction
 
+const initialState: ICustomTestsState = {
+    customTests: [],
+    isFetching: false
+}
 
-export const customTestReducer = (state: ICustomTestsState, action: ActionsType): ICustomTestsState => {
+export const customTestReducer = (state: ICustomTestsState = initialState, action: ActionsType): ICustomTestsState => {
     switch (action.type) {
         case "ADD-CUSTOM-TEST":
             const stateCopy: ICustomTestsState = {...state};
@@ -28,8 +32,6 @@ export const customTestReducer = (state: ICustomTestsState, action: ActionsType)
                 questions: action.questions,
             }];
             return stateCopy;
-        case "TOGGLE-IS-FETCHING":
-            return {...state, isFetching: action.isFetching};
         default:
             return state;
     }
@@ -44,7 +46,7 @@ type ThunkType = ThunkAction<Promise<void>, AppRootState, unknown, ActionsType>
 export const createCustomTest = (courseId: string, title: string, questions: IQuestion[]): ThunkType => {
     return async (dispatch, getState) => {
         try {
-            dispatch(toggleIsFetchingAC(true));
+            dispatch(setLoadingAC(true));
             const ac = addCustomTestAC(courseId, title, questions);
             let data = await coursesAPI.createCustomTest({
                 id: ac.id,
@@ -57,7 +59,7 @@ export const createCustomTest = (courseId: string, title: string, questions: IQu
                 dispatch(ac)
             }
         }finally {
-            dispatch(toggleIsFetchingAC(false));
+            dispatch(setLoadingAC(false));
         }
 
     }

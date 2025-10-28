@@ -3,9 +3,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {coursesReducer} from "./courses-reducer";
 import {directionInfoReducer} from "./directionInfo-reducer";
 import {customTestReducer} from "./customTest-reducer";
+import {appReducer} from "./app-reducer";
 
 
 const rootReducer = combineReducers({
+    app: appReducer,
     coursesState: coursesReducer,
     directionsInfosState: directionInfoReducer,
     customTestReducer: customTestReducer,

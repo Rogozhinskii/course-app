@@ -5,7 +5,6 @@ import {Filter} from "../components/filter/Filter";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {requestCourses} from "../state/courses-reducer";
-import {Spinner} from "../components/spinner/Spinner";
 
 export const Courses = () => {
 
@@ -28,15 +27,11 @@ export const Courses = () => {
                         </div>
                         <ul className="courses">
                             {
-                                state.isFetching ? (
-                                    <Spinner/>
-                                ) : (
-                                    state.courses.map((c) =>
-                                        <CourseCard key={c.id}
-                                                    id={c.id}
-                                                    title={c.title}
-                                                    image={c.image}/>)
-                                )
+                                state.courses.map((c) =>
+                                    <CourseCard key={c.id}
+                                                id={c.id}
+                                                title={c.title}
+                                                image={c.image}/>)
                             }
                         </ul>
                     </div>

@@ -3,7 +3,7 @@ import {v1} from "uuid";
 import {ThunkAction} from "@reduxjs/toolkit";
 import {AppRootState} from "./store";
 import {coursesAPI} from "./api";
-import {ToggleIsFetchingActionType, toggleIsFetchingAC} from "../interfaces/CommonActions";
+import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 
 
 export type AddCourseAction = {
@@ -23,17 +23,15 @@ export type EditCourseAction = {
     courseId: string
 }
 
-type ActionsType = SetCoursesActionType | AddCourseAction | EditCourseAction | ToggleIsFetchingActionType;
+type ActionsType = SetCoursesActionType | AddCourseAction | EditCourseAction | SetLoadingAction;
 
 
 export type CoursesStateType = {
     courses: CourseType[]
-    isFetching: boolean
 }
 
 const initialState: CoursesStateType = {
-    courses: [],
-    isFetching: false
+    courses: []
 }
 
 export const coursesReducer = (state = initialState, action: ActionsType): CoursesStateType => {
@@ -54,8 +52,6 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                 }, ...stateCopy.courses]
             return stateCopy
         }
-        case "TOGGLE-IS-FETCHING":
-            return {...state, isFetching: action.isFetching}
         default:
             return state;
     }
@@ -70,16 +66,19 @@ export const setCoursesAC = (courses: CourseType[]): SetCoursesActionType => {
 }
 
 
-
 type ThunkType = ThunkAction<Promise<void>, AppRootState, unknown, ActionsType>
 
 export const requestCourses = (): ThunkType => {
 
     return async (dispatch, getState) => {
 
-        dispatch(toggleIsFetchingAC(true));
-        let data = await coursesAPI.getCourses();
-        dispatch(toggleIsFetchingAC(false));
-        dispatch(setCoursesAC(data));
+        try {
+            dispatch(setLoadingAC(true));
+            let data = await coursesAPI.getCourses();
+            dispatch(setCoursesAC(data));
+        } finally {
+            dispatch(setLoadingAC(false));
+        }
+
     }
 }

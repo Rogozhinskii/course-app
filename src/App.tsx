@@ -8,6 +8,7 @@ import {CourseInfo} from "./pages/CourseInfo";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import {Contacts} from "./pages/Contacts";
 import {CreateCourse} from "./components/createCource/CreateCourse";
+import {LoadingOverlay} from "./components/loadingOverlay/LoadingOverlay";
 
 function App() {
     return (
@@ -21,8 +22,8 @@ function App() {
                     <Route path="/course/create" element={<CreateCourse/>}/>
                     <Route path="/contacts" element={<Contacts/>}/>
                 </Routes>
+                <LoadingOverlay/>
                 <Footer/>
-
             </Router>
         </div>
     );
