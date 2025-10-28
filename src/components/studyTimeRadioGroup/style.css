@@ -1,0 +1,15 @@
+
+.radio-group {
+    display: flex;
+    column-gap: 40px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    cursor: pointer;
+
+    font-size: 20px;
+    color: var(--page-text-color);
+}

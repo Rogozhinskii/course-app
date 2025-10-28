@@ -32,8 +32,8 @@
 .input-field {
     width: 100%;
     padding: 10px 14px;
-    font-size: 16px;
-    color: #222;
+    font-size: 20px;
+    color: var(--page-text-color);
     background-color: var(--white);
 
     border: 2px solid var(--input-border);

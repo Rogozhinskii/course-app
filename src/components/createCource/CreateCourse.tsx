@@ -1,19 +1,36 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useEffect} from "react";
 import "./style.css"
 import {Checkbox} from "../checkbox/Checkbox";
-import {Question, TestConstructor} from "../testConstructor/TestConstructor";
+import {TestConstructor} from "../testConstructor/TestConstructor";
 import saveIcon from "./../../img/icons/save.svg"
 import {useNavigate} from "react-router-dom";
+import {StudyTime} from "../../interfaces/StudyTime";
+import {StudyTimeRadioGroup} from "../studyTimeRadioGroup/StudyTimeRadioGroup";
+import {IQuestion} from "../../interfaces/IQuestion";
+import {useAppDispatch} from "../../state/store";
+import {requestCourses} from "../../state/courses-reducer";
+import {createCustomTest} from "../../state/customTest-reducer";
+import {v1} from "uuid";
+
 
 export const CreateCourse = () => {
-    const navigate = useNavigate();
+
     const [name, setName] = React.useState<string>("");
     const [text, setText] = React.useState<string>("");
     const [theme, setTheme] = React.useState<string>("");
     const [error, setError] = React.useState<string | null>(null);
     const [checked, setChecked] = React.useState(false);
+    const [questions, setQuestions] = React.useState<IQuestion[]>([]);
+    const [testTitle, setTestTitle] = React.useState<string>("");
 
-    const [questions, setQuestions] = React.useState<Question[]>([]);
+    const dispatch = useAppDispatch();
+
+
+    const [studyTime, setStudyTime] = React.useState<StudyTime>(StudyTime.LESS_THAN_15)
+
+    const onRadioChangeHandler = (studyTime: StudyTime) => {
+        setStudyTime(studyTime)
+    }
 
     const getInputStyle = (): string => {
         return error ? "input-field error" : "input-field";
@@ -45,10 +62,20 @@ export const CreateCourse = () => {
     }
 
     const onSaveHandler = (): boolean => {
-        navigate("/courses")
+        debugger
+        dispatch(createCustomTest(v1(), testTitle, questions))
+        //navigate("/courses")
 
         // setError("Field is required!")
         return true;
+    }
+
+    const addQuestions = (questions: IQuestion[]) : void => {
+        setQuestions(questions)
+    }
+
+    const updateTestTitle = (testTitle: string) : void => {
+        setTestTitle(testTitle)
     }
 
 
@@ -93,10 +120,15 @@ export const CreateCourse = () => {
                             {error && <div className="error-message">{error}</div>}
                         </li>
                         <li className="input-data-list__item">
+                            <h3 className="input-data-list__item__title ">Время изучения</h3>
+                            <StudyTimeRadioGroup onChange={onRadioChangeHandler}/>
+
+                        </li>
+                        <li className="input-data-list__item">
                             <Checkbox title="Добавить тест" callback={res => setChecked(res)}/>
                         </li>
                     </ul>
-                    {checked && <TestConstructor addQuestions={setQuestions}/>}
+                    {checked && <TestConstructor addQuestions={addQuestions} updateTestTitle={updateTestTitle}/>}
                     <div className="save-btn">
                         <button className="btn"
                                 onClick={onSaveHandler}>

@@ -53,6 +53,121 @@
       "title": "Развивай навыки",
       "description": "Следите за своим прогрессом, проходите челленджи, получайте достижения и прокачивайте профессиональные и личные навыки. Учёба — это игра, где главный приз — ваше развитие."
     }
-
+  ],
+  "customTest": [
+    {
+      "id": "708829c0-b43a-11f0-80f0-5d4e7a71d243",
+      "courseId": "708802b0-b43a-11f0-80f0-5d4e7a71d243",
+      "title": "Почему Бла-бла?",
+      "questions": [
+        {
+          "id": "ae2dd460-b439-11f0-80f0-5d4e7a71d243",
+          "question": "А что было с бла?",
+          "answers": [
+            "Ничего",
+            "Такого",
+            "Не ",
+            "Было"
+          ],
+          "correctIndex": 2,
+          "text": "g"
+        },
+        {
+          "id": "5a3ee6e0-b43a-11f0-80f0-5d4e7a71d243",
+          "question": "вапрвап",
+          "answers": [
+            "вапрв",
+            "прв",
+            "апрв",
+            "апр"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    },
+    {
+      "id": "9d489d50-b43a-11f0-80f0-5d4e7a71d243",
+      "courseId": "9b96f5b0-b43a-11f0-80f0-5d4e7a71d243",
+      "title": "Почему Бла-бла?",
+      "questions": [
+        {
+          "id": "ae2dd460-b439-11f0-80f0-5d4e7a71d243",
+          "question": "А что было с бла?",
+          "answers": [
+            "Ничего",
+            "Такого",
+            "Не ",
+            "Было"
+          ],
+          "correctIndex": 2,
+          "text": "g"
+        },
+        {
+          "id": "5a3ee6e0-b43a-11f0-80f0-5d4e7a71d243",
+          "question": "вапрвап",
+          "answers": [
+            "вапрв",
+            "прв",
+            "апрв",
+            "апр"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    },
+    {
+      "id": "c465bcb0-b43a-11f0-893d-a33a1c6464b1",
+      "courseId": "c27c3c30-b43a-11f0-893d-a33a1c6464b1",
+      "title": "ывапывапы",
+      "questions": [
+        {
+          "id": "bd6dadf0-b43a-11f0-893d-a33a1c6464b1",
+          "question": "вапыв",
+          "answers": [
+            "выап",
+            "вап",
+            "ывап",
+            "вап"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    },
+    {
+      "id": "3cf20710-b43b-11f0-893d-a33a1c6464b1",
+      "courseId": "3c16e950-b43b-11f0-893d-a33a1c6464b1",
+      "title": "ывапывапы",
+      "questions": [
+        {
+          "id": "bd6dadf0-b43a-11f0-893d-a33a1c6464b1",
+          "question": "вапыв",
+          "answers": [
+            "выап",
+            "вап",
+            "ывап",
+            "вап"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    },
+    {
+      "id": "4b6f4960-b43b-11f0-ab51-eb3bcd939569",
+      "courseId": "4b6efb40-b43b-11f0-ab51-eb3bcd939569",
+      "title": "asda",
+      "questions": [
+        {
+          "id": "46539bc0-b43b-11f0-ab51-eb3bcd939569",
+          "question": "asd",
+          "answers": [
+            "ads",
+            "asd",
+            "asd",
+            "sd"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    }
   ]
 }

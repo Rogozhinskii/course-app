@@ -1,57 +1,60 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, useCallback, useState} from "react";
 import {v1} from "uuid";
 import "./style.css"
+import {ITestConstructorProps} from "../../interfaces/ITestConstructorProps";
+import {IQuestion} from "../../interfaces/IQuestion";
 
-
-export type Question = {
-    id: string;
-    text: string;
-    answers: string[];
-    correctIndex: number;
-}
-
-export interface ITestConstructorProps {
-    addQuestions: (questions: Question[]) => void;
-}
 
 export const TestConstructor = (props: ITestConstructorProps) => {
     const [testTitle, setTestTitle] = useState<string>("");
-    const [questions, setQuestions] = useState<Question[]>([]);
+    const [questions, setQuestions] = useState<IQuestion[]>([]);
 
     const addQuestion = () => {
-        const newQuestion: Question = {
+        debugger
+        const newQuestion: IQuestion = {
             id: v1(),
-            text: "",
+            question: "",
             answers: ["", "", "", ""],
             correctIndex: 0,
         };
-        setQuestions([...questions, newQuestion]);
-        props.addQuestions(questions);
+        const updated = [...questions, newQuestion];
+        setQuestions(updated);
+        props.addQuestions(updated);
     };
 
+    const onTestTitleChanged = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+        const newTitle = e.target.value;
+        setTestTitle(newTitle);
+        props.updateTestTitle(newTitle)
+    }, [props.updateTestTitle]);
+
     const updateQuestionText = (id: string, value: string) => {
-        setQuestions((prev) =>
-            prev.map((q) => (q.id === id ? {...q, text: value} : q))
-        );
+        const copy = [...questions]
+        const updated = copy.map((q: IQuestion): IQuestion => (q.id === id ? {...q, question: value} : q))
+        setQuestions(updated);
+        props.addQuestions(updated);
     };
 
     const updateAnswer = (qid: string, index: number, value: string) => {
-        setQuestions((prev) =>
-            prev.map((q) =>
-                q.id === qid
-                    ? {
-                        ...q,
-                        answers: q.answers.map((a, i) => (i === index ? value : a)),
-                    }
-                    : q
-            )
-        );
+
+        const copy: IQuestion[] = [...questions]
+        const updated = copy.map((q): IQuestion =>
+            q.id === qid
+                ? {
+                    ...q,
+                    answers: q.answers.map((a, i) => (i === index ? value : a)),
+                }
+                : q
+        )
+        setQuestions(updated);
+        props.addQuestions(updated);
     };
 
     const setCorrect = (qid: string, index: number) => {
-        setQuestions((prev) =>
-            prev.map((q) => (q.id === qid ? {...q, correctIndex: index} : q))
-        );
+        const copy: IQuestion[] = [...questions]
+        const updated = copy.map((q): IQuestion => (q.id === qid ? {...q, correctIndex: index} : q))
+        setQuestions(updated);
+        props.addQuestions(updated);
     };
 
     return (
@@ -62,7 +65,7 @@ export const TestConstructor = (props: ITestConstructorProps) => {
                 className="input-field"
                 placeholder="Введите тему теста..."
                 value={testTitle}
-                onChange={(e) => setTestTitle(e.target.value)}
+                onChange={onTestTitleChanged}
             />
 
 
@@ -76,7 +79,7 @@ export const TestConstructor = (props: ITestConstructorProps) => {
                         type="text"
                         className="input-field"
                         placeholder={`Вопрос ${index + 1}`}
-                        value={q.text}
+                        value={q.question}
                         onChange={(e) => updateQuestionText(q.id, e.target.value)}
                     />
 

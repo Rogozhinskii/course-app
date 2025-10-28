@@ -3,6 +3,8 @@ import {v1} from "uuid";
 import {ThunkAction} from "@reduxjs/toolkit";
 import {AppRootState} from "./store";
 import {coursesAPI} from "./api";
+import {ToggleIsFetchingActionType, toggleIsFetchingAC} from "../interfaces/CommonActions";
+
 
 export type AddCourseAction = {
     type: "ADD-COURSE",
@@ -19,11 +21,6 @@ export type SetCoursesActionType = {
 export type EditCourseAction = {
     type: "EDIT-COURSE",
     courseId: string
-}
-
-export type ToggleIsFetchingActionType = {
-    type: "TOGGLE-IS-FETCHING"
-    isFetching: boolean;
 }
 
 type ActionsType = SetCoursesActionType | AddCourseAction | EditCourseAction | ToggleIsFetchingActionType;
@@ -72,9 +69,7 @@ export const setCoursesAC = (courses: CourseType[]): SetCoursesActionType => {
     return {type: "SET-COURSES", courses: courses}
 }
 
-export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingActionType => {
-    return {type: "TOGGLE-IS-FETCHING", isFetching: isFetching}
-}
+
 
 type ThunkType = ThunkAction<Promise<void>, AppRootState, unknown, ActionsType>
 
