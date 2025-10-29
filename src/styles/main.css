@@ -92,6 +92,11 @@ font-family: "DM Sans", sans-serif;
     line-height: 1.5;
 }
 
+.error-message {
+    font-size: 16px;
+    color: var(--red);
+}
+
 @media (max-width:620px) {
 
     .header {
@@ -142,5 +147,4 @@ font-family: "DM Sans", sans-serif;
     .content-list {
         row-gap: 20px;
     }
-
 }

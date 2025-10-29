@@ -1,8 +1,9 @@
 import axios from "axios";
 import {config} from "../config/env";
-import {CourseType} from "../components/course/CourseCard";
 import {IDirectionInfo} from "../interfaces/IDirectionInfo";
 import {ICustomTest} from "../interfaces/ICustomTest";
+import {ICourseType} from "../interfaces/ICourseType";
+import {ICourseDirection} from "../interfaces/ICourseDirection";
 
 
 export enum ResponseStatus {
@@ -18,10 +19,11 @@ const instanse = axios.create({
 
 export const coursesAPI = {
     getCourses(){
-        return instanse.get<CourseType[]>('/courses')
-            .then((response) => {
-                return response.data;
-            })
+        return instanse.get<ICourseType[]>('/courses')
+    },
+
+    createCourse(course: ICourseType){
+        return axios.post(`/courses`, course);
     },
 
     getDirectionsInfos() {
@@ -37,8 +39,9 @@ export const coursesAPI = {
 
     getCustomTests(){
         return instanse.get<ICustomTest>(`/customTest`)
-            .then((res)=>{
-                return res.data;
-            })
+    },
+
+    getCoursesDirections(){
+        return instanse.get<ICourseDirection[]>("/coursesDirections")
     }
 }

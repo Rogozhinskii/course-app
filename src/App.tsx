@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import {Contacts} from "./pages/Contacts";
 import {CreateCourse} from "./components/createCource/CreateCourse";
 import {LoadingOverlay} from "./components/loadingOverlay/LoadingOverlay";
+import {Toaster} from "react-hot-toast";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 </Routes>
                 <LoadingOverlay/>
                 <Footer/>
+                <Toaster position="top-center"/>
             </Router>
         </div>
     );

@@ -1,25 +1,25 @@
-import React, {ChangeEvent, useEffect} from "react";
+import React, {ChangeEvent, useCallback} from "react";
 import "./style.css"
 import {Checkbox} from "../checkbox/Checkbox";
 import {TestConstructor} from "../testConstructor/TestConstructor";
 import saveIcon from "./../../img/icons/save.svg"
-import {useNavigate} from "react-router-dom";
 import {StudyTime} from "../../interfaces/StudyTime";
 import {StudyTimeRadioGroup} from "../studyTimeRadioGroup/StudyTimeRadioGroup";
 import {IQuestion} from "../../interfaces/IQuestion";
 import {useAppDispatch} from "../../state/store";
-import {requestCourses} from "../../state/courses-reducer";
 import {createCustomTest} from "../../state/customTest-reducer";
 import {v1} from "uuid";
+import {ICourseDirection} from "../../interfaces/ICourseDirection";
+import {DirectionSelector} from "../directionSelector/DirectionSelector";
 
 
 export const CreateCourse = () => {
 
     const [name, setName] = React.useState<string>("");
-    const [text, setText] = React.useState<string>("");
-    const [theme, setTheme] = React.useState<string>("");
+    const [courseMaterial, setCourseMaterial] = React.useState<string>("");
+    const [direction, setDirection] = React.useState<ICourseDirection | null>(null);
     const [error, setError] = React.useState<string | null>(null);
-    const [checked, setChecked] = React.useState(false);
+    const [isTestRequired, setIsTestRequired] = React.useState(false);
     const [questions, setQuestions] = React.useState<IQuestion[]>([]);
     const [testTitle, setTestTitle] = React.useState<string>("");
 
@@ -47,22 +47,19 @@ export const CreateCourse = () => {
 
     const onTextAreaChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setError(null)
-        setText(e.currentTarget.value)
+        setCourseMaterial(e.currentTarget.value)
     }
 
-    const themes: string[] = [
-        "Программирование",
-        "Дизайн",
-        "Маркетинг",
-        "Кино"
-    ]
 
-    function onThemeChangeHandler() {
 
-    }
+    const setCourseDirections = useCallback((direction: ICourseDirection) => {
+        setDirection(direction)
+    }, [])
 
     const onSaveHandler = (): boolean => {
         debugger
+
+
         dispatch(createCustomTest(v1(), testTitle, questions))
         //navigate("/courses")
 
@@ -70,11 +67,11 @@ export const CreateCourse = () => {
         return true;
     }
 
-    const addQuestions = (questions: IQuestion[]) : void => {
+    const addQuestions = (questions: IQuestion[]): void => {
         setQuestions(questions)
     }
 
-    const updateTestTitle = (testTitle: string) : void => {
+    const updateTestTitle = (testTitle: string): void => {
         setTestTitle(testTitle)
     }
 
@@ -98,21 +95,14 @@ export const CreateCourse = () => {
                         </li>
                         <li className="input-data-list__item">
                             <h3 className="input-data-list__item__title ">Тематика</h3>
-                            <select className={getInputStyle()}
-                                    value={theme}
-                                    onChange={onThemeChangeHandler}>
-                                <option value="">Выберите тематику...</option>
-                                {
-                                    themes.map((x) => <option key={x} value={x}>{x} </option>)
-                                }
-                            </select>
+                            <DirectionSelector setCourseDirection={setCourseDirections}/>
                             {error && <div className="error-message">{error}</div>}
                         </li>
                         <li className="input-data-list__item">
                             <h3 className="input-data-list__item__title ">Информация</h3>
 
                             <textarea className={getInputStyle()}
-                                      value={text}
+                                      value={courseMaterial}
                                       placeholder="Начните вводить..."
                                       rows={10}
                                       onChange={onTextAreaChangeHandler}
@@ -125,10 +115,10 @@ export const CreateCourse = () => {
 
                         </li>
                         <li className="input-data-list__item">
-                            <Checkbox title="Добавить тест" callback={res => setChecked(res)}/>
+                            <Checkbox title="Добавить тест" callback={res => setIsTestRequired(res)}/>
                         </li>
                     </ul>
-                    {checked && <TestConstructor addQuestions={addQuestions} updateTestTitle={updateTestTitle}/>}
+                    {isTestRequired && <TestConstructor addQuestions={addQuestions} updateTestTitle={updateTestTitle}/>}
                     <div className="save-btn">
                         <button className="btn"
                                 onClick={onSaveHandler}>

@@ -4,12 +4,7 @@ import "./style.css"
 import {ICourseCardProps} from "../../interfaces/ICourseCardProps";
 
 
-export type CourseType = {
-    id: string;
-    title: string;
-    skills: string,
-    image: string;
-}
+
 
 
 export const CourseCard = (props: ICourseCardProps) => {
