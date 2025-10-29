@@ -11,7 +11,8 @@ export const Courses = () => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(requestCourses())
-    }, []);
+    }, [dispatch]);
+
 
     const state = useAppSelector(state => state.coursesState);
 
