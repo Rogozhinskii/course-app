@@ -17,7 +17,7 @@ export const CourseInfo = () => {
 
                     <img src={course?.image} alt="" className="course-details__cover"/>
                     <div className="course-details__desc">
-                        <p>{course?.skills}</p>
+                        <p>{course?.content}</p>
                     </div>
 
                     <LinkButton text={"Some button"} link={"https://github.com"} imgUrl={gitIcon} btnStyle={"btn-outline"} />

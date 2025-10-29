@@ -1,0 +1,45 @@
+.image-input-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.image-drop-zone {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px dashed var(--acent);
+    border-radius: 8px;
+
+
+    color: var(--acent);
+    background-color: var(--snow);
+    cursor: pointer;
+    text-align: center;
+
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.image-drop-zone.drag-over {
+    border-color: var(--ligth-blue);
+    background-color: var(--alice-blue);
+}
+
+.image-input-error {
+    color: red;
+    font-size: 14px;
+}
+
+.image-input-success {
+    color: green;
+    font-size: 14px;
+    font-weight: 600;
+}

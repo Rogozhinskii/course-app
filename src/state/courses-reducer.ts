@@ -11,8 +11,11 @@ import toast from "react-hot-toast";
 
 export type AddCourseAction = {
     type: "ADD-COURSE",
+    directionId: string,
+    testId?: string,
     title: string;
-    skills: string;
+    content: string;
+    studyTime: string;
     image: string;
 }
 
@@ -61,8 +64,11 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
             stateCopy.courses = [
                 {
                     id: v1(),
+                    directionId: action.directionId,
+                    testId: action.testId,
                     title: action.title,
-                    skills: action.skills,
+                    content: action.content,
+                    studyTime: action.studyTime,
                     image: action.image
                 }, ...stateCopy.courses]
             return stateCopy
@@ -78,8 +84,16 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
     }
 }
 
-export const addCourceAC = (title: string, skills: string, image: string): AddCourseAction => {
-    return {type: "ADD-COURSE", title: title, skills: skills, image: image};
+export const addCourceAC = (directionId: string, title: string, content: string, studyTime: string, image: string, testId?: string): AddCourseAction => {
+    return {
+        type: "ADD-COURSE",
+        directionId: directionId,
+        title: title,
+        content: content,
+        studyTime: studyTime,
+        image: image,
+        testId: testId
+    };
 }
 
 export const setCoursesAC = (courses: ICourseType[]): SetCoursesActionType => {
@@ -105,13 +119,11 @@ export const requestCourses = (): ThunkType => {
             } else {
                 toast.error(`Не удалось загрузить данные: ${res.status}`)
             }
-        }
-        catch (e: unknown) {
+        } catch (e: unknown) {
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
-        }
-        finally {
+        } finally {
             dispatch(setLoadingAC(false));
         }
 

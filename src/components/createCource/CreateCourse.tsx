@@ -1,5 +1,4 @@
-import React, {ChangeEvent, useCallback} from "react";
-import "./style.css"
+import React, {useCallback} from "react";
 import {Checkbox} from "../checkbox/Checkbox";
 import {TestConstructor} from "../testConstructor/TestConstructor";
 import saveIcon from "./../../img/icons/save.svg"
@@ -11,46 +10,30 @@ import {createCustomTest} from "../../state/customTest-reducer";
 import {v1} from "uuid";
 import {ICourseDirection} from "../../interfaces/ICourseDirection";
 import {DirectionSelector} from "../directionSelector/DirectionSelector";
+import {TextArea} from "../textArea/TextArea";
+import {TextField} from "../textField/TextField";
+import "./style.css"
+import {ImageInput} from "../imageInput/ImageInput";
 
 
 export const CreateCourse = () => {
 
-    const [name, setName] = React.useState<string>("");
-    const [courseMaterial, setCourseMaterial] = React.useState<string>("");
+    const [courseName, setCourseName] = React.useState<string>("");
+    const [content, setContent] = React.useState<string>("");
     const [direction, setDirection] = React.useState<ICourseDirection | null>(null);
-    const [error, setError] = React.useState<string | null>(null);
+
     const [isTestRequired, setIsTestRequired] = React.useState(false);
     const [questions, setQuestions] = React.useState<IQuestion[]>([]);
     const [testTitle, setTestTitle] = React.useState<string>("");
+    const [coverImg, setCoverImg] = React.useState<string>("");
 
     const dispatch = useAppDispatch();
 
-
     const [studyTime, setStudyTime] = React.useState<StudyTime>(StudyTime.LESS_THAN_15)
 
-    const onRadioChangeHandler = (studyTime: StudyTime) => {
+    const setCourceStudyTime = (studyTime: StudyTime) => {
         setStudyTime(studyTime)
     }
-
-    const getInputStyle = (): string => {
-        return error ? "input-field error" : "input-field";
-    }
-    const onKeyUpHandler = () => {
-        if (error != null) {
-            setError(null);
-        }
-    }
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setError(null)
-        setName(e.currentTarget.value)
-    }
-
-    const onTextAreaChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setError(null)
-        setCourseMaterial(e.currentTarget.value)
-    }
-
-
 
     const setCourseDirections = useCallback((direction: ICourseDirection) => {
         setDirection(direction)
@@ -84,35 +67,23 @@ export const CreateCourse = () => {
                     <ul className="input-data-list">
                         <li className="input-data-list__item">
                             <h3 className="input-data-list__item__title ">Название</h3>
-                            <input type="text"
-                                   className={getInputStyle()}
-                                   value={name}
-                                   placeholder="Начните вводить..."
-                                   onChange={onChangeHandler}
-                                   onKeyUp={onKeyUpHandler}
-                            />
-                            {error && <div className="error-message">{error}</div>}
+                            <TextField onContentChanged={setCourseName}/>
                         </li>
                         <li className="input-data-list__item">
                             <h3 className="input-data-list__item__title ">Тематика</h3>
                             <DirectionSelector setCourseDirection={setCourseDirections}/>
-                            {error && <div className="error-message">{error}</div>}
                         </li>
                         <li className="input-data-list__item">
                             <h3 className="input-data-list__item__title ">Информация</h3>
-
-                            <textarea className={getInputStyle()}
-                                      value={courseMaterial}
-                                      placeholder="Начните вводить..."
-                                      rows={10}
-                                      onChange={onTextAreaChangeHandler}
-                            />
-                            {error && <div className="error-message">{error}</div>}
+                            <TextArea onContentChanged={setContent} rows={10}/>
                         </li>
                         <li className="input-data-list__item">
                             <h3 className="input-data-list__item__title ">Время изучения</h3>
-                            <StudyTimeRadioGroup onChange={onRadioChangeHandler}/>
-
+                            <StudyTimeRadioGroup onChange={setCourceStudyTime}/>
+                        </li>
+                        <li className="input-data-list__item">
+                            <h3 className="input-data-list__item__title ">Обложка</h3>
+                            <ImageInput onContentChanged={setCoverImg}/>
                         </li>
                         <li className="input-data-list__item">
                             <Checkbox title="Добавить тест" callback={res => setIsTestRequired(res)}/>

@@ -1,5 +1,6 @@
 @import "./reset.css";
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 /*
 font-family: "Poppins", sans-serif;
 font-family: "Roboto", sans-serif;
@@ -14,8 +15,11 @@ font-family: "DM Sans", sans-serif;
     --purple: #5c62ec;
     --red: #ef4444;
     --bright-blue: #3b82f6;
+    --ligth-blue: #1e90ff;
+    --alice-blue: #f0f8ff;
     --light-gray: #ccc;
     --medium-gray: #aaa;
+    --snow: #fafafa;
 
     --page-text-color: var(--black);
     --dark-bd: var(--black);
@@ -50,7 +54,7 @@ font-family: "DM Sans", sans-serif;
 }
 
 
-.section {    
+.section {
     padding: 70px 0;
 }
 
@@ -68,7 +72,7 @@ font-family: "DM Sans", sans-serif;
 
 .title-2 {
     margin-bottom: 20px;
-    
+
     font-weight: 700;
     font-size: 40px;
     color: var(--black);
@@ -97,7 +101,7 @@ font-family: "DM Sans", sans-serif;
     color: var(--red);
 }
 
-@media (max-width:620px) {
+@media (max-width: 620px) {
 
     .header {
         min-height: unset;
@@ -107,7 +111,7 @@ font-family: "DM Sans", sans-serif;
         font-size: 30px;
     }
 
-    .header__title strong{
+    .header__title strong {
         font-size: 40px;
     }
 
@@ -128,7 +132,7 @@ font-family: "DM Sans", sans-serif;
     .roject__title {
         font-size: 22px;
     }
-    
+
     .footer {
         padding: 40px 0 30px;
     }
@@ -140,6 +144,7 @@ font-family: "DM Sans", sans-serif;
     .social {
         column-gap: 20px;
     }
+
     .social__item {
         width: 20px;
     }
