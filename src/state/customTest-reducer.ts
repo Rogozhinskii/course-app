@@ -5,6 +5,7 @@ import {ThunkAction} from "@reduxjs/toolkit";
 import {AppRootState} from "./store";
 import {coursesAPI, ResponseStatus} from "./api";
 import {setLoadingAC, SetLoadingAction} from "./app-reducer";
+import toast from "react-hot-toast";
 
 export type AddCustomTestAction = {
     type: "ADD-CUSTOM-TEST"
@@ -55,10 +56,14 @@ export const createCustomTest = (courseId: string, title: string, questions: IQu
                 questions: ac.questions,
             });
 
-            if(data.status === ResponseStatus.CREATED) {
+            if (data.status === ResponseStatus.CREATED) {
                 dispatch(ac)
             }
-        }finally {
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(`Ошибка: ${e.message}`);
+            }
+        } finally {
             dispatch(setLoadingAC(false));
         }
 

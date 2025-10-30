@@ -5,14 +5,16 @@ import {coursesAPI, ResponseStatus} from "./api";
 import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 import {ICourseType} from "../interfaces/ICourseType";
 import {ICourseDirection} from "../interfaces/ICourseDirection";
-import {STATUS_CODES} from "node:http";
 import toast from "react-hot-toast";
+import {IQuestion} from "../interfaces/IQuestion";
+import {addCustomTestAC, createCustomTest} from "./customTest-reducer";
 
 
 export type AddCourseAction = {
     type: "ADD-COURSE",
+    id: string,
     directionId: string,
-    testId?: string,
+    hasTest: boolean,
     title: string;
     content: string;
     studyTime: string;
@@ -65,7 +67,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                 {
                     id: v1(),
                     directionId: action.directionId,
-                    testId: action.testId,
+                    hasTest: action.hasTest,
                     title: action.title,
                     content: action.content,
                     studyTime: action.studyTime,
@@ -84,15 +86,16 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
     }
 }
 
-export const addCourceAC = (directionId: string, title: string, content: string, studyTime: string, image: string, testId?: string): AddCourseAction => {
+export const addCourseAC = (directionId: string, title: string, content: string, studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
     return {
         type: "ADD-COURSE",
+        id: v1(),
         directionId: directionId,
         title: title,
         content: content,
         studyTime: studyTime,
         image: image,
-        testId: testId
+        hasTest: hasTest
     };
 }
 
@@ -153,11 +156,38 @@ export const requestCoursesDirections = (): ThunkType => {
     }
 }
 
-export const requestCreateCourse = (): ThunkType => {
+export const requestCreateCourse = (directionId: string,
+                                    courseTitle: string,
+                                    content: string,
+                                    studyTime: string,
+                                    coverImg: string,
+                                    hasTest: boolean,
+                                    testTitle: string,
+                                    questions: IQuestion[]): ThunkType => {
     return async (dispatch, getState) => {
         try {
             dispatch(setLoadingAC(true));
-            //await coursesAPI.createCourse({})
+            const addCourseAction = addCourseAC(directionId, courseTitle, content, studyTime, coverImg, hasTest)
+            await coursesAPI.createCourse({
+                id: addCourseAction.id,
+                directionId: addCourseAction.directionId,
+                title: addCourseAction.title,
+                content: addCourseAction.content,
+                studyTime: addCourseAction.studyTime,
+                image: addCourseAction.image,
+                hasTest: addCourseAction.hasTest,
+            })
+
+            dispatch(addCourseAction);
+
+            if (hasTest) {
+                await dispatch(createCustomTest(addCourseAction.id, testTitle, questions));
+            }
+
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(`Ошибка: ${e.message}`);
+            }
         } finally {
             dispatch(setLoadingAC(false));
         }

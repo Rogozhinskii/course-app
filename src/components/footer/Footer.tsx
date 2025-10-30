@@ -3,7 +3,7 @@ import "./style.css"
 
 import gitLogo from "./gitHub.svg"
 import vkLogo from "./vk.svg"
-import {LinkButton} from "../buttonIcon/LinkButton";
+import {LinkButton} from "../linkButton/LinkButton";
 
 
 export const Footer = () => {

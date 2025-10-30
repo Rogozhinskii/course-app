@@ -32,6 +32,7 @@
 .input-field {
     width: 100%;
     padding: 10px 14px;
+    margin-bottom: 10px;
     font-size: 20px;
     color: var(--page-text-color);
     background-color: var(--white);

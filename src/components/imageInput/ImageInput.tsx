@@ -1,16 +1,24 @@
-import React, {ChangeEvent, useState, DragEvent} from "react";
+import React, {ChangeEvent, useState, DragEvent, useEffect} from "react";
 import {ImageInputProps} from "../../interfaces/ITextFieldProps";
 import "./style.css"
 
 
+
 export const ImageInput= (props: ImageInputProps) => {
-    const [error, setError] = useState<string | null>(null);
+    const externalError: string|null = props.error ?? null;
+    const errorMessage: string = externalError ?? "Выберите изображение"
+
+    useEffect(() => {
+        setError(externalError);
+    }, [externalError]);
+
+    const [error, setError] = useState<string | null>(externalError);
     const [isDragOver, setIsDragOver] = useState(false);
     const [fileLoaded, setFileLoaded] = useState(false);
 
     const handleFile = (file: File) => {
         if (!file.type.startsWith("image/")) {
-            setError("Выберите изображение");
+            setError(errorMessage);
             setFileLoaded(true);
             return;
         }

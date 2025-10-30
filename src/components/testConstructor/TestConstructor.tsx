@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
 import {v1} from "uuid";
 import "./style.css"
 import {ITestConstructorProps} from "../../interfaces/ITestConstructorProps";
@@ -6,11 +6,19 @@ import {IQuestion} from "../../interfaces/IQuestion";
 
 
 export const TestConstructor = (props: ITestConstructorProps) => {
+    const externalError: string|null = props.error ?? null;
+    const errorMessage: string = externalError ?? "Введите название курса"
+
     const [testTitle, setTestTitle] = useState<string>("");
     const [questions, setQuestions] = useState<IQuestion[]>([]);
 
+    const [error, setError] = useState<string|null>("");
+
+    useEffect(() => {
+        setError(externalError);
+    }, [props.error, externalError]);
+
     const addQuestion = () => {
-        debugger
         const newQuestion: IQuestion = {
             id: v1(),
             question: "",
@@ -23,7 +31,12 @@ export const TestConstructor = (props: ITestConstructorProps) => {
     };
 
     const onTestTitleChanged = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
+        debugger
         const newTitle = e.target.value;
+        if(!newTitle.trim()) {
+            setError(errorMessage);
+        }
+        setError(null);
         setTestTitle(newTitle);
         props.updateTestTitle(newTitle)
     }, [props.updateTestTitle]);
@@ -62,12 +75,12 @@ export const TestConstructor = (props: ITestConstructorProps) => {
             <h2 className="test-constructor__title">Конструктор теста</h2>
             <input
                 type="text"
-                className="input-field"
+                className={error ? "input-field error" : "input-field"}
                 placeholder="Введите тему теста..."
                 value={testTitle}
                 onChange={onTestTitleChanged}
             />
-
+            {error && <div className="error-message">{error}</div>}
 
             <button className="add-btn" onClick={addQuestion}>
                 + Добавить вопрос

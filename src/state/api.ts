@@ -23,7 +23,8 @@ export const coursesAPI = {
     },
 
     createCourse(course: ICourseType){
-        return axios.post(`/courses`, course);
+        return instanse.post<ICourseType>(`/courses`, course)
+            .then(res => res.data);
     },
 
     getDirectionsInfos() {
@@ -34,7 +35,7 @@ export const coursesAPI = {
     },
 
     createCustomTest(data: ICustomTest){
-        return instanse.post('/customTest', data)
+        return instanse.post('/customTest', data).then(res => res.data);
     },
 
     getCustomTests(){

@@ -1,30 +1,32 @@
-import React, { useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../state/store";
 import {requestCoursesDirections} from "../../state/courses-reducer";
-import {ICourseDirection} from "../../interfaces/ICourseDirection";
 
 export interface IDirectionSelectorProps {
-    setCourseDirection: (direction: ICourseDirection) => void;
+    onDirectionIdChanged: (directionId: string) => void;
+    error?: string;
 }
 
 export const DirectionSelector = (props: IDirectionSelectorProps) => {
 
+    const externalError: string|null = props.error ?? null;
+    const errorMessage: string = "Выберите тематику"
     const dispatch = useAppDispatch();
     const [selectedValue, setSelectedValue] = useState<string>("");
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(externalError);
 
     const directions = useAppSelector(state => state.coursesState.directions);
 
     useEffect(() => {
-
+        setError(externalError);
         dispatch(requestCoursesDirections())
-    }, [dispatch]);
+    }, [dispatch, externalError]);
 
     const onDirectionChanged = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
 
         const value = e.target.value.trim()
         if (!value) {
-            setError("Field is required!")
+            setError(errorMessage)
             setSelectedValue("")
             return;
         }
@@ -32,11 +34,11 @@ export const DirectionSelector = (props: IDirectionSelectorProps) => {
         setSelectedValue(value)
         const selectedDirection = directions.find(x => x.name === value)
         if (selectedDirection) {
-            props.setCourseDirection(selectedDirection)
+            props.onDirectionIdChanged(selectedDirection.id)
         } else {
-            setError("Field is required!")
+            setError(errorMessage)
         }
-    }, [props.setCourseDirection, directions])
+    }, [props.onDirectionIdChanged, directions])
 
     return (
         <>

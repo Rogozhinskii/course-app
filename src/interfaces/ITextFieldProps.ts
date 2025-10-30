@@ -1,5 +1,6 @@
 export interface ITextFielBaseProps {
     onContentChanged: (text: string) => void;
+    error?: string;
 }
 
 export interface ITextFieldProps extends ITextFielBaseProps  {

@@ -14,6 +14,7 @@ font-family: "DM Sans", sans-serif;
     --white: #fff;
     --purple: #5c62ec;
     --red: #ef4444;
+    --rose: #e36464;
     --bright-blue: #3b82f6;
     --ligth-blue: #1e90ff;
     --alice-blue: #f0f8ff;
@@ -97,6 +98,8 @@ font-family: "DM Sans", sans-serif;
 }
 
 .error-message {
+    width: 30%;
+    text-wrap: wrap;
     font-size: 16px;
     color: var(--red);
 }

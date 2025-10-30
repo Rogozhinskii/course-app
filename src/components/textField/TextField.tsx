@@ -1,17 +1,23 @@
-import React, {useCallback, useState, KeyboardEvent, ChangeEvent} from "react";
+import React, {useCallback, useState, KeyboardEvent, ChangeEvent, useEffect} from "react";
 import {ITextFieldProps} from "../../interfaces/ITextFieldProps";
 
 
 export const TextField =(props: ITextFieldProps) =>{
 
+    const externalError: string|null = props.error ?? null;
+    const errorMessage: string = externalError ?? "Введите название курса"
     const placeHolder = "Начните вводить..."
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(props.error ?? null);
     const [text, setText] = useState<string>("");
+
+    useEffect(() => {
+        setError(externalError);
+    }, [props.error, externalError]);
 
     const onChangeHandler = useCallback ((e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.trim();
         if(!value){
-            setError("Field is required!");
+            setError(errorMessage);
             setText("");
             return;
         }

@@ -1,6 +1,6 @@
 import React from "react";
 import {useParams} from 'react-router-dom'
-import {LinkButton} from "../components/buttonIcon/LinkButton";
+import {LinkButton} from "../components/linkButton/LinkButton";
 import gitIcon from "./../img/icons/gitHub-black.svg"
 import "./style.css"
 import {useAppSelector} from "../state/store";

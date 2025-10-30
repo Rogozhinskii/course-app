@@ -2,7 +2,7 @@ export interface ICourseType {
     id: string;
 
     directionId: string;
-    testId?: string;
+    hasTest: boolean;
 
     title: string;
     content: string;
