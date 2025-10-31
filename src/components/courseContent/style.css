@@ -1,0 +1,18 @@
+
+.course-content-list {
+
+}
+
+.course-content-list__item {
+    margin-bottom: 10px;
+    font-size: 20px;
+    line-height: 1.5;
+}
+
+.course-content-list__item p {
+  text-align: justify;
+}
+
+.course-details button {
+    align-self: flex-end;
+}

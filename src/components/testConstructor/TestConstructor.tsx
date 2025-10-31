@@ -3,6 +3,7 @@ import {v1} from "uuid";
 import "./style.css"
 import {ITestConstructorProps} from "../../interfaces/ITestConstructorProps";
 import {IQuestion} from "../../interfaces/IQuestion";
+import addIcon from "../../img/icons/patch-plus.svg";
 
 
 export const TestConstructor = (props: ITestConstructorProps) => {
@@ -82,9 +83,13 @@ export const TestConstructor = (props: ITestConstructorProps) => {
             />
             {error && <div className="error-message">{error}</div>}
 
-            <button className="add-btn" onClick={addQuestion}>
-                + Добавить вопрос
-            </button>
+            <div className="test-constructor-btn-wrapper">
+                <button className="icon-btn add-btn"
+                        onClick={addQuestion}>
+                    <img src={addIcon} alt="icon"/>
+                </button>
+            </div>
+
 
             {questions.map((q, index) => (
                 <div key={q.id} className="question-block">

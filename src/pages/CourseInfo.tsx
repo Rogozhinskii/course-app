@@ -1,9 +1,9 @@
 import React from "react";
 import {useParams} from 'react-router-dom'
-import {LinkButton} from "../components/linkButton/LinkButton";
-import gitIcon from "./../img/icons/gitHub-black.svg"
 import "./style.css"
 import {useAppSelector} from "../state/store";
+import {IContentBlock} from "../interfaces/IContentBlock";
+import {CourseContent} from "../components/courseContent/CourseContent";
 
 export const CourseInfo = () => {
     const {id} = useParams();
@@ -16,12 +16,20 @@ export const CourseInfo = () => {
                     <h2 className="title-1">{course?.title}</h2>
 
                     <img src={course?.image} alt="" className="course-details__cover"/>
-                    <div className="course-details__desc">
-                        <p>{course?.content}</p>
-                    </div>
 
-                    <LinkButton text={"Some button"} link={"https://github.com"} imgUrl={gitIcon} btnStyle={"btn-outline"} />
+                    <ul className="course-content-list">
+                        {
+                            course?.content?.map((d: IContentBlock) => <CourseContent key={d.id}
+                                                                                      title={d.title}
+                                                                                      content={d.content}/>)
+                        }
+                    </ul>
+
+                    <button>
+                        Test
+                    </button>
                 </div>
+
             </div>
         </main>
     )

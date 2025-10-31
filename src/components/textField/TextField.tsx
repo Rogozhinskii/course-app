@@ -15,8 +15,8 @@ export const TextField =(props: ITextFieldProps) =>{
     }, [props.error, externalError]);
 
     const onChangeHandler = useCallback ((e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.trim();
-        if(!value){
+        const value = e.target.value;
+        if(!value.trim()){
             setError(errorMessage);
             setText("");
             return;

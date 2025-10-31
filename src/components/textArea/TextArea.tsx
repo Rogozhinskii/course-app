@@ -16,8 +16,8 @@ export const TextArea = (props: ITextAreaProps) => {
     }, [externalError]);
 
     const onChangeHandler = useCallback ((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value.trim();
-        if(!value){
+        const value = e.target.value;
+        if(!value.trim()){
             setError(errorMessage);
             setText("");
             return;

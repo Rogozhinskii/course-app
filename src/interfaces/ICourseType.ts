@@ -1,3 +1,5 @@
+import {IContentBlock} from "./IContentBlock";
+
 export interface ICourseType {
     id: string;
 
@@ -5,7 +7,7 @@ export interface ICourseType {
     hasTest: boolean;
 
     title: string;
-    content: string;
+    content: IContentBlock[];
     studyTime:string;
 
     image: string;

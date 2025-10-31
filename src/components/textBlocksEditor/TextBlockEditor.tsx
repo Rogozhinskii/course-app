@@ -3,26 +3,24 @@ import addIcon from "../../img/icons/patch-plus.svg"
 import eraserIcon from "../../img/icons/eraser.svg"
 import {TextArea} from "../textArea/TextArea";
 import {TextField} from "../textField/TextField";
+import {IContentBlock} from "../../interfaces/IContentBlock";
 import {v1} from "uuid";
 import "./style.css"
 
-export interface ITextBlock {
-    id: string;
-    title: string;
-    content: string;
-}
+
+
 
 export interface ITextBlockEditorProps {
-    onContentChanged: (blocks: ITextBlock[]) => void;
+    onContentChanged: (blocks: IContentBlock[]) => void;
     error?: string;
 }
 
 
 export const TextBlockEditor = (props: ITextBlockEditorProps) => {
-    const [blocks, setBlocks] = useState<ITextBlock[]>([]);
+    const [blocks, setBlocks] = useState<IContentBlock[]>([]);
 
     const addBlockHandler = () => {
-        const updated: ITextBlock[] = [...blocks, {
+        const updated: IContentBlock[] = [...blocks, {
             id: v1(),
             title: "",
             content: "",

@@ -8,6 +8,7 @@ import {ICourseDirection} from "../interfaces/ICourseDirection";
 import toast from "react-hot-toast";
 import {IQuestion} from "../interfaces/IQuestion";
 import {addCustomTestAC, createCustomTest} from "./customTest-reducer";
+import {IContentBlock} from "../interfaces/IContentBlock";
 
 
 export type AddCourseAction = {
@@ -16,7 +17,7 @@ export type AddCourseAction = {
     directionId: string,
     hasTest: boolean,
     title: string;
-    content: string;
+    content: IContentBlock[];
     studyTime: string;
     image: string;
 }
@@ -86,7 +87,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
     }
 }
 
-export const addCourseAC = (directionId: string, title: string, content: string, studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
+export const addCourseAC = (directionId: string, title: string, content: IContentBlock[], studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
     return {
         type: "ADD-COURSE",
         id: v1(),
@@ -158,7 +159,7 @@ export const requestCoursesDirections = (): ThunkType => {
 
 export const requestCreateCourse = (directionId: string,
                                     courseTitle: string,
-                                    content: string,
+                                    content: IContentBlock[],
                                     studyTime: string,
                                     coverImg: string,
                                     hasTest: boolean,

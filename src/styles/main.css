@@ -104,6 +104,49 @@ font-family: "DM Sans", sans-serif;
     color: var(--red);
 }
 
+
+.icon-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 6px;
+    margin-bottom: 5px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    border-radius: 50%;
+    transition: all 0.2s ease;
+
+}
+
+.icon-btn img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.5s ease;
+}
+
+.icon-btn:hover img {
+    transform: scale(1.15);
+}
+
+.add-btn {
+    background-color: var(--acent);
+}
+
+.add-btn:hover {
+    background-color: var(--bright-blue);
+}
+
+.delete-btn {
+    background-color: var(--red);
+}
+
+.delete-btn:hover {
+    background-color: var(--rose);
+}
+
 @media (max-width: 620px) {
 
     .header {
