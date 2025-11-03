@@ -30,7 +30,7 @@ export const Filter = (props: IFilterProps) => {
             <ul className="filter-directions">
                 {
                     directions.map((d: ICourseDirection) => {
-                        return <li role="button" className="filter-direction">{d.name}</li>
+                        return <li key={d.id} role="button" className="filter-direction">{d.name}</li>
                     })
                 }
             </ul>

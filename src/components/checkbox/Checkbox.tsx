@@ -9,10 +9,10 @@ export interface ICheckboxProps {
 export const Checkbox = (props: ICheckboxProps) => {
     const [checked, setChecked] = React.useState(false);
 
-    const onClickHandler=()=> {
+    const onClickHandler = () => {
         let state = !checked;
         setChecked(state);
-        if(props.callback){
+        if (props.callback) {
             props.callback(state);
         }
     }
@@ -22,6 +22,7 @@ export const Checkbox = (props: ICheckboxProps) => {
             <input
                 type="checkbox"
                 checked={checked}
+                onChange={()=>{}}
             />
             <span className="checkmark"></span>
             <span className="label-text">{props.title}</span>

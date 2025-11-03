@@ -51,6 +51,7 @@ export const CustomTest = (props: ICustomTestProps) => {
                         </h3>
 
                         {q.answers.map((answer, answerIndex) => {
+
                             const isSelected = selectedAnswers[q.id] === answerIndex;
 
                             return (

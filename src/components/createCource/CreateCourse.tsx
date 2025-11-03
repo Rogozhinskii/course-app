@@ -52,7 +52,6 @@ export const CreateCourse = () => {
     const validateData = (): boolean => {
         const newErrors: { [key: string]: string } = {};
 
-        debugger
         if (!courseTitle.trim()) newErrors.courseTitle = "Введите название курса";
         if (!directionId.trim()) newErrors.direction = "Выберите тематику";
         if (!coverImg.trim()) newErrors.coverImg = "Выберите изображение";
