@@ -7,8 +7,10 @@ import {ICourseType} from "../interfaces/ICourseType";
 import {ICourseDirection} from "../interfaces/ICourseDirection";
 import toast from "react-hot-toast";
 import {IQuestion} from "../interfaces/IQuestion";
-import {addCustomTestAC, createCustomTest} from "./customTest-reducer";
+import {createCustomTest} from "./customTest-reducer";
 import {IContentBlock} from "../interfaces/IContentBlock";
+import {TimeFilterType} from "../components/filter/Filter";
+import {StudyTime} from "../interfaces/StudyTime";
 
 
 export type AddCourseAction = {
@@ -37,22 +39,32 @@ type SetCoursesDirectionsAction = {
     directions: ICourseDirection[]
 }
 
+type ChangeCoursesFilter = {
+    type: "CHANGE-COURSES-FILTER"
+    directionId: string
+    timeFilter: TimeFilterType
+    hasTest: boolean
+}
+
 type ActionsType =
     SetCoursesActionType
     | AddCourseAction
     | EditCourseAction
     | SetLoadingAction
-    | SetCoursesDirectionsAction;
+    | SetCoursesDirectionsAction
+    | ChangeCoursesFilter;
 
 
 export type CoursesStateType = {
     courses: ICourseType[]
     directions: ICourseDirection[]
+    filteredCourses: ICourseType[]
 }
 
 const initialState: CoursesStateType = {
     courses: [],
     directions: [],
+    filteredCourses: [],
 }
 
 export const coursesReducer = (state = initialState, action: ActionsType): CoursesStateType => {
@@ -61,6 +73,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
             return {
                 ...state,
                 courses: action.courses,
+                filteredCourses: action.courses
             }
         case "ADD-COURSE": {
             const stateCopy = {...state}
@@ -81,6 +94,29 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                 ...state,
                 directions: action.directions
             }
+        }
+        case "CHANGE-COURSES-FILTER": {
+            let filtered = action.directionId !== "all"
+                ? state.courses.filter(course => course.directionId === action.directionId
+                    && course.hasTest === action.hasTest)
+                : state.courses.filter(course => course.hasTest === action.hasTest);
+
+            if (action.timeFilter !== "all") {
+                filtered = filtered.filter(course => {
+                    if (action.timeFilter === StudyTime.LESS_THAN_15) {
+                        return course.studyTime === StudyTime.LESS_THAN_15;
+                    }
+                    if (action.timeFilter === StudyTime.MORE_THAN_15) {
+                        return course.studyTime === StudyTime.MORE_THAN_15;
+                    }
+                    return true;
+                });
+            }
+            return {
+                ...state,
+                filteredCourses: filtered
+            }
+
         }
         default:
             return state;
@@ -106,6 +142,10 @@ export const setCoursesAC = (courses: ICourseType[]): SetCoursesActionType => {
 
 export const setCoursesDirectionsAC = (directions: ICourseDirection[]): SetCoursesDirectionsAction => {
     return {type: "SET-COURSES-DIRECTIONS", directions: directions}
+}
+
+export const changeCoursesFilterAC = (directionId: string, hasTest: boolean, timeFilter: TimeFilterType): ChangeCoursesFilter => {
+    return {type: "CHANGE-COURSES-FILTER", directionId: directionId, timeFilter: timeFilter, hasTest: hasTest};
 }
 
 

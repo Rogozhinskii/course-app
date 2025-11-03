@@ -10,7 +10,7 @@ export const Checkbox = (props: ICheckboxProps) => {
     const [checked, setChecked] = React.useState(false);
 
     const onClickHandler = () => {
-        let state = !checked;
+        const state = !checked;
         setChecked(state);
         if (props.callback) {
             props.callback(state);

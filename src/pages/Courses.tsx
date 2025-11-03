@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {CourseCard} from "../components/course/CourseCard";
+import {CourseCard} from "../components/courseCard/CourseCard";
 import "./style.css"
 import {Filter} from "../components/filter/Filter";
 import {NavLink} from "react-router-dom";
@@ -20,7 +20,7 @@ export const Courses = () => {
         <main className="section">
             <div className="container">
                 <div className="courses__wrapper">
-                    <Filter timeFilter={"all"} hasTest={true}/>
+                    <Filter />
                     <div className="courses-container">
                         <div className="courses-title-wrapper">
                             <h2 className="title-1">Курсы</h2>
@@ -28,7 +28,7 @@ export const Courses = () => {
                         </div>
                         <ul className="courses">
                             {
-                                state.courses.map((c) =>
+                                state.filteredCourses.map((c) =>
                                     <CourseCard key={c.id}
                                                 id={c.id}
                                                 title={c.title}
