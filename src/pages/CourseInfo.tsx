@@ -6,6 +6,7 @@ import {IContentBlock} from "../interfaces/IContentBlock";
 import {CourseContent} from "../components/courseContent/CourseContent";
 import {ICourseType} from "../interfaces/ICourseType";
 import {requestCourses} from "../state/courses-reducer";
+import {CustomTest} from "../components/customTest/CustomTest";
 
 export const CourseInfo = () => {
 
@@ -40,10 +41,7 @@ export const CourseInfo = () => {
 
 
                     {
-                        course?.hasTest &&
-                        <button>
-                            Test
-                        </button>
+                        course?.hasTest && <CustomTest courseId={course?.id}/>
                     }
                 </div>
 

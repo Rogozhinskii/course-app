@@ -32,7 +32,7 @@ export const TestConstructor = (props: ITestConstructorProps) => {
     };
 
     const onTestTitleChanged = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
-        debugger
+
         const newTitle = e.target.value;
         if(!newTitle.trim()) {
             setError(errorMessage);
@@ -72,8 +72,8 @@ export const TestConstructor = (props: ITestConstructorProps) => {
     };
 
     return (
-        <div className="test-constructor">
-            <h2 className="test-constructor__title">Конструктор теста</h2>
+        <div className="test-container">
+            <h2 className="test-title">Конструктор теста</h2>
             <input
                 type="text"
                 className={error ? "input-field error" : "input-field"}

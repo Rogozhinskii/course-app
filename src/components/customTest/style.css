@@ -1,0 +1,17 @@
+.question {
+    text-align: left;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.test-result {
+    display: flex;
+    flex-direction: column;
+}
+
+.test-result p {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

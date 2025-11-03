@@ -90,7 +90,7 @@ export const requestCustomTests = (): ThunkType => {
             dispatch(setLoadingAC(true));
             const res = await coursesAPI.getCustomTests()
             if (res.status === ResponseStatus.OK) {
-                setCustomTestsAC(res.data);
+                dispatch(setCustomTestsAC(res.data));
             }else {
                 toast.error(`Не удалось загрузить пользовательские тесты: ${res.status}`)
             }

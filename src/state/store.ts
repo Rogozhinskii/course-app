@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     app: appReducer,
     coursesState: coursesReducer,
     directionsInfosState: directionInfoReducer,
-    customTestReducer: customTestReducer,
+    customTestsState: customTestReducer,
 })
 
 export const store = configureStore({
