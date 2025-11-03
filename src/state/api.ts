@@ -39,7 +39,7 @@ export const coursesAPI = {
     },
 
     getCustomTests(){
-        return instanse.get<ICustomTest>(`/customTest`)
+        return instanse.get<ICustomTest[]>(`/customTest`)
     },
 
     getCoursesDirections(){

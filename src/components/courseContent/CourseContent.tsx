@@ -1,12 +1,12 @@
-import React from "react";
 import "./style.css"
 
-export interface  ICourseContent {
+
+export interface ICourseContentProps {
     title: string,
-    content: string,
+    content: string
 }
 
-export const CourseContent = (props: ICourseContent) =>{
+export const CourseContent = (props: ICourseContentProps) => {
 
     return (
         <li className="course-content-list__item ">

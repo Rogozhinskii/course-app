@@ -1,14 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useParams} from 'react-router-dom'
 import "./style.css"
-import {useAppSelector} from "../state/store";
+import {useAppDispatch, useAppSelector} from "../state/store";
 import {IContentBlock} from "../interfaces/IContentBlock";
 import {CourseContent} from "../components/courseContent/CourseContent";
+import {ICourseType} from "../interfaces/ICourseType";
+import {requestCourses} from "../state/courses-reducer";
 
 export const CourseInfo = () => {
+
     const {id} = useParams();
-    const state = useAppSelector(state => state.coursesState);
-    const course = state.courses.find((course) => course.id === id);
+    const dispatch = useAppDispatch();
+    const {courses} = useAppSelector(state => state.coursesState);
+    const course = courses.find((course: ICourseType) => course.id === id);
+    useEffect(() => {
+        if (courses.length === 0) {
+            dispatch(requestCourses())
+        }
+    }, [dispatch, courses.length]);
+
+
     return (
         <main className="section">
             <div className="container">
@@ -19,15 +30,21 @@ export const CourseInfo = () => {
 
                     <ul className="course-content-list">
                         {
+
                             course?.content?.map((d: IContentBlock) => <CourseContent key={d.id}
                                                                                       title={d.title}
-                                                                                      content={d.content}/>)
+                                                                                      content={d.content}
+                            />)
                         }
                     </ul>
 
-                    <button>
-                        Test
-                    </button>
+
+                    {
+                        course?.hasTest &&
+                        <button>
+                            Test
+                        </button>
+                    }
                 </div>
 
             </div>
