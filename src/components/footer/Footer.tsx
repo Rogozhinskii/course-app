@@ -13,7 +13,7 @@ export const Footer = () => {
                 <div className="footer__wrapper">
                     <ul className="social">
                         <li className="social__item">
-                            <LinkButton link={"https://github.com"} imgUrl={gitLogo} text={""} btnStyle={"none"}/>
+                            <LinkButton link={"https://github.com/Rogozhinskii/course-app"} imgUrl={gitLogo} text={""} btnStyle={"none"}/>
                         </li>
                         <li className="social__item">
                             <LinkButton link={"https://vk.ru"} imgUrl={vkLogo} text={""} btnStyle={"none"} />
