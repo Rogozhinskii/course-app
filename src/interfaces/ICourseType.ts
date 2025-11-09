@@ -8,7 +8,7 @@ export interface ICourseType {
 
     title: string;
     content: IContentBlock[];
-    studyTime:string;
+    studyTime: string;
 
     image: string;
 }

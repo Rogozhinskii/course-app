@@ -16,6 +16,7 @@ const instanse = axios.create({
     timeout: config.apiConfig.timeout,
 })
 
+export const ImageUrl = `${config.apiConfig.baseUrl}/static`;
 
 export const coursesAPI = {
     getCourses(){
