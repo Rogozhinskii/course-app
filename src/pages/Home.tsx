@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {Header} from "../components/header/Header";
 import {DirectionInfo} from "../components/directionInfo/DirectionInfo";
-import {v1} from "uuid";
 import {IDirectionInfo} from "../interfaces/IDirectionInfo";
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {requestDirectionsInfos} from "../state/directionInfo-reducer";
@@ -11,7 +10,7 @@ export const Home = () => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(requestDirectionsInfos())
-    }, []);
+    }, [dispatch]);
 
     const directionInfoState = useAppSelector(state=>state.directionsInfosState);
     const directions = directionInfoState.directionsInfos

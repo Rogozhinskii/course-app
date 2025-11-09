@@ -1,5 +1,5 @@
 export interface IDirectionInfo {
-    id: string;
+    id: number;
     title: string;
     description: string;
 }

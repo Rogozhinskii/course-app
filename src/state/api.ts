@@ -28,7 +28,7 @@ export const coursesAPI = {
     },
 
     getDirectionsInfos() {
-        return instanse.get<IDirectionInfo[]>('/directionsInfos')
+        return instanse.get<IDirectionInfo[]>('/direction-info')
             .then((response) => {
                 return response.data;
             })
