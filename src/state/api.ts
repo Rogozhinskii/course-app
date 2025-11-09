@@ -43,6 +43,6 @@ export const coursesAPI = {
     },
 
     getCoursesDirections(){
-        return instanse.get<ICourseDirection[]>("/coursesDirections")
+        return instanse.get<ICourseDirection[]>("/course-direction")
     }
 }

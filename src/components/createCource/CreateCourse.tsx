@@ -14,13 +14,14 @@ import {requestCreateCourse} from "../../state/courses-reducer";
 import {useNavigate} from "react-router-dom";
 import {TextBlockEditor} from "../textBlocksEditor/TextBlockEditor";
 import {IContentBlock} from "../../interfaces/IContentBlock";
+import {AllDirection} from "../../interfaces/ICourseDirection";
 
 
 export const CreateCourse = () => {
     const navigate = useNavigate()
     const [courseTitle, setCourseTitle] = useState<string>("");
     const [blocks, setBlocks] = useState<IContentBlock[]>([])
-    const [directionId, setDirectionId] = useState<string>("");
+    const [directionId, setDirectionId] = useState<number>(AllDirection);
 
     const [hasTest, setHasTest] = useState(false);
     const [questions, setQuestions] = useState<IQuestion[]>([]);
@@ -35,7 +36,7 @@ export const CreateCourse = () => {
         setStudyTime(studyTime)
     }
 
-    const onDirectionIdChanged = useCallback((directionId: string) => {
+    const onDirectionIdChanged = useCallback((directionId: number) => {
         setDirectionId(directionId)
     }, [])
 
@@ -53,7 +54,7 @@ export const CreateCourse = () => {
         const newErrors: { [key: string]: string } = {};
 
         if (!courseTitle.trim()) newErrors.courseTitle = "Введите название курса";
-        if (!directionId.trim()) newErrors.direction = "Выберите тематику";
+        if (!directionId) newErrors.direction = "Выберите тематику";
         if (!coverImg.trim()) newErrors.coverImg = "Выберите изображение";
         if (blocks.length === 0) newErrors.blocks = "Блоки информации должны быть заполнены";
 

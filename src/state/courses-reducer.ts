@@ -4,7 +4,7 @@ import {AppRootState} from "./store";
 import {coursesAPI, ResponseStatus} from "./api";
 import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 import {ICourseType} from "../interfaces/ICourseType";
-import {ICourseDirection} from "../interfaces/ICourseDirection";
+import {AllDirection, ICourseDirection} from "../interfaces/ICourseDirection";
 import toast from "react-hot-toast";
 import {IQuestion} from "../interfaces/IQuestion";
 import {createCustomTest} from "./customTest-reducer";
@@ -16,7 +16,7 @@ import {StudyTime} from "../interfaces/StudyTime";
 export type AddCourseAction = {
     type: "ADD-COURSE",
     id: string,
-    directionId: string,
+    directionId: number,
     hasTest: boolean,
     title: string;
     content: IContentBlock[];
@@ -41,7 +41,7 @@ type SetCoursesDirectionsAction = {
 
 type ChangeCoursesFilter = {
     type: "CHANGE-COURSES-FILTER"
-    directionId: string
+    directionId: number
     timeFilter: TimeFilterType
     hasTest: boolean
 }
@@ -96,7 +96,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
             }
         }
         case "CHANGE-COURSES-FILTER": {
-            let filtered = action.directionId !== "all"
+            let filtered = action.directionId !== AllDirection
                 ? state.courses.filter(course => course.directionId === action.directionId
                     && course.hasTest === action.hasTest)
                 : state.courses.filter(course => course.hasTest === action.hasTest);
@@ -123,7 +123,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
     }
 }
 
-export const addCourseAC = (directionId: string, title: string, content: IContentBlock[], studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
+export const addCourseAC = (directionId: number, title: string, content: IContentBlock[], studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
     return {
         type: "ADD-COURSE",
         id: v1(),
@@ -144,7 +144,7 @@ export const setCoursesDirectionsAC = (directions: ICourseDirection[]): SetCours
     return {type: "SET-COURSES-DIRECTIONS", directions: directions}
 }
 
-export const changeCoursesFilterAC = (directionId: string, hasTest: boolean, timeFilter: TimeFilterType): ChangeCoursesFilter => {
+export const changeCoursesFilterAC = (directionId: number, hasTest: boolean, timeFilter: TimeFilterType): ChangeCoursesFilter => {
     return {type: "CHANGE-COURSES-FILTER", directionId: directionId, timeFilter: timeFilter, hasTest: hasTest};
 }
 
@@ -197,7 +197,7 @@ export const requestCoursesDirections = (): ThunkType => {
     }
 }
 
-export const requestCreateCourse = (directionId: string,
+export const requestCreateCourse = (directionId: number,
                                     courseTitle: string,
                                     content: IContentBlock[],
                                     studyTime: string,

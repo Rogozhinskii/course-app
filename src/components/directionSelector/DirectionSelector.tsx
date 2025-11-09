@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../state/store";
 import {requestCoursesDirections} from "../../state/courses-reducer";
 
 export interface IDirectionSelectorProps {
-    onDirectionIdChanged: (directionId: string) => void;
+    onDirectionIdChanged: (directionId: number) => void;
     error?: string;
 }
 

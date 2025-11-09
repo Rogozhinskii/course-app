@@ -256,24 +256,6 @@
       "hasTest": false
     }
   ],
-  "coursesDirections": [
-    {
-      "id": "3d14ae89-b370-11f0-b436-b5d43ebb1da7",
-      "name": "Программирование"
-    },
-    {
-      "id": "3d14ae90-b370-11f0-b436-b5d43ebb1da7",
-      "name": "Дизайн"
-    },
-    {
-      "id": "3d14ae91-b370-11f0-b436-b5d43ebb1da7",
-      "name": "Маркетинг"
-    },
-    {
-      "id": "3d14ae92-b370-11f0-b436-b5d43ebb1da7",
-      "name": "Кино"
-    }
-  ],
   "customTest": [
     {
       "id": "58d918f1-b8a6-11f0-8cf9-7dbc7491f206",

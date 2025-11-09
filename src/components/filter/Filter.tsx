@@ -3,7 +3,7 @@ import {Checkbox} from "../checkbox/Checkbox";
 import {StudyTime} from "../../interfaces/StudyTime";
 import {useAppDispatch, useAppSelector} from "../../state/store";
 import {changeCoursesFilterAC, requestCoursesDirections} from "../../state/courses-reducer";
-import {ICourseDirection} from "../../interfaces/ICourseDirection";
+import {AllDirection, ICourseDirection} from "../../interfaces/ICourseDirection";
 
 import "./style.css"
 
@@ -18,8 +18,8 @@ export const Filter = (props: IFilterProps) => {
     const dispatch = useAppDispatch();
     const [hasTest, setHasTest] = useState(false);
     const [timeFilter, setTimeFilter] = useState<TimeFilterType>("all")
-    const [directionId, setDirectionId] = useState<string>("all")
-    const [selectedId, setSelectedId] = useState<string|null>(null)
+    const [directionId, setDirectionId] = useState<number>(AllDirection)
+    const [selectedId, setSelectedId] = useState<number|null>(null)
 
     useEffect(() => {
         dispatch(requestCoursesDirections())
@@ -27,7 +27,7 @@ export const Filter = (props: IFilterProps) => {
 
     const directions = useAppSelector(state => state.coursesState.directions);
 
-    const directionChangeHandler = (e: React.MouseEvent<HTMLLIElement>, newDirectionId: string) => {
+    const directionChangeHandler = (e: React.MouseEvent<HTMLLIElement>, newDirectionId: number) => {
         setDirectionId(newDirectionId)
         setSelectedId(newDirectionId)
         dispatch(changeCoursesFilterAC(newDirectionId, hasTest, timeFilter))
@@ -57,10 +57,10 @@ export const Filter = (props: IFilterProps) => {
 
     const onResetFilter =useCallback(() => {
         setTimeFilter("all")
-        setDirectionId("all")
+        setDirectionId(AllDirection)
         setHasTest(false)
         setSelectedId(null)
-        dispatch(changeCoursesFilterAC("all", false, "all"))
+        dispatch(changeCoursesFilterAC(AllDirection, false, "all"))
     }, [dispatch]);
 
 
