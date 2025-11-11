@@ -6,6 +6,8 @@ import {ICourseType} from "../interfaces/ICourseType";
 import {ICourseDirection} from "../interfaces/ICourseDirection";
 import {ICreateCourseDto} from "../dto/ICreateCourseDto";
 import {ICourseDto} from "../dto/ICourseDto";
+import {ICreateCustomTestDto} from "../dto/customTest/CreateCustomTestDto";
+import {createSlice} from "@reduxjs/toolkit";
 
 
 export enum ResponseStatus {
@@ -55,12 +57,13 @@ export const coursesAPI = {
             })
     },
 
-    createCustomTest(data: ICustomTest) {
-        return instanse.post('/customTest', data).then(res => res.data);
+    createCustomTest(data: ICreateCustomTestDto) {
+        return instanse.post<ICustomTest>('/custom-test', data)
+            .then(res => res.data);
     },
 
     getCustomTests() {
-        return instanse.get<ICustomTest[]>(`/customTest`)
+        return instanse.get<ICustomTest[]>(`/custom-test`)
     },
 
     getCoursesDirections() {
@@ -68,4 +71,10 @@ export const coursesAPI = {
     }
 }
 
+export function parseAxiosError(err: unknown): string {
+    if (axios.isAxiosError(err)) {
+        return err.response?.data || err.message;
+    }
+    return "Неизвестная ошибка";
+}
 

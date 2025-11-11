@@ -1,5 +1,4 @@
-export interface IQuestion {
-    id: number;
+export interface ICreateQuestionDto {
     question: string;
     answers: string[];
     correctIndex: number;

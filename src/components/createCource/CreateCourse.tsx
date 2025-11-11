@@ -15,6 +15,7 @@ import {useNavigate} from "react-router-dom";
 import {TextBlockEditor} from "../textBlocksEditor/TextBlockEditor";
 import {IContentBlock} from "../../interfaces/IContentBlock";
 import {AllDirection} from "../../interfaces/ICourseDirection";
+import {createCustomTest} from "../../state/customTest-reducer";
 
 
 export const CreateCourse = () => {
@@ -45,7 +46,11 @@ export const CreateCourse = () => {
             return;
         }
         try {
-            await dispatch(requestCreateCourse(directionId, courseTitle, blocks, studyTime, hasTest, testTitle, questions, coverImg!))
+            const newCourseId =  await dispatch(requestCreateCourse(directionId, courseTitle, blocks, studyTime, coverImg!))
+
+            if(newCourseId && hasTest){
+                dispatch(createCustomTest(newCourseId, testTitle, questions))
+            }
             navigate("/courses")
         }catch (error) {
             console.log(error);

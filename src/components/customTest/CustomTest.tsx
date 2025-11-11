@@ -21,7 +21,7 @@ export const CustomTest = (props: ICustomTestProps) => {
         }
     }, [props.courseId, dispatch, tests.length]);
 
-    const selectAnswerHandler = (questionId: string, answerIndex: number) => {
+    const selectAnswerHandler = (questionId: number, answerIndex: number) => {
         setSelectedAnswers((prev) => ({...prev, [questionId]: answerIndex}));
     }
 

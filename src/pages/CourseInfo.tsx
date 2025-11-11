@@ -19,7 +19,7 @@ export const CourseInfo = () => {
     }, [dispatch, id]);
 
     const imageUrl = `${ImageUrl}/${course?.image}`
-    debugger
+
     return (
         <main className="section">
             <div className="container">

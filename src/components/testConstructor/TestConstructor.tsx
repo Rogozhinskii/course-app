@@ -21,7 +21,7 @@ export const TestConstructor = (props: ITestConstructorProps) => {
 
     const addQuestion = () => {
         const newQuestion: IQuestion = {
-            id: v1(),
+            id: 0,
             question: "",
             answers: ["", "", "", ""],
             correctIndex: 0,
@@ -42,14 +42,14 @@ export const TestConstructor = (props: ITestConstructorProps) => {
         props.updateTestTitle(newTitle)
     }, [props.updateTestTitle]);
 
-    const updateQuestionText = (id: string, value: string) => {
+    const updateQuestionText = (id: number, value: string) => {
         const copy = [...questions]
         const updated = copy.map((q: IQuestion): IQuestion => (q.id === id ? {...q, question: value} : q))
         setQuestions(updated);
         props.addQuestions(updated);
     };
 
-    const updateAnswer = (qid: string, index: number, value: string) => {
+    const updateAnswer = (qid: number, index: number, value: string) => {
 
         const copy: IQuestion[] = [...questions]
         const updated = copy.map((q): IQuestion =>
@@ -64,7 +64,7 @@ export const TestConstructor = (props: ITestConstructorProps) => {
         props.addQuestions(updated);
     };
 
-    const setCorrect = (qid: string, index: number) => {
+    const setCorrect = (qid: number, index: number) => {
         const copy: IQuestion[] = [...questions]
         const updated = copy.map((q): IQuestion => (q.id === qid ? {...q, correctIndex: index} : q))
         setQuestions(updated);

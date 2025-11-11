@@ -1,7 +1,7 @@
 import {v1} from "uuid";
 import {ThunkAction} from "@reduxjs/toolkit";
 import {AppRootState} from "./store";
-import {coursesAPI, ResponseStatus} from "./api";
+import {coursesAPI, parseAxiosError, ResponseStatus} from "./api";
 import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 import {ICourseType} from "../interfaces/ICourseType";
 import {AllDirection, ICourseDirection} from "../interfaces/ICourseDirection";
@@ -11,6 +11,7 @@ import {createCustomTest} from "./customTest-reducer";
 import {IContentBlock} from "../interfaces/IContentBlock";
 import {TimeFilterType} from "../components/filter/Filter";
 import {StudyTime} from "../interfaces/StudyTime";
+import axios from "axios";
 
 
 export type AddCourseAction = {
@@ -172,7 +173,8 @@ export const setOrUpdateCourseAC = (course: ICourseType) : SetOrUpdateCourseActi
 }
 
 
-type ThunkType = ThunkAction<Promise<void>, AppRootState, unknown, ActionsType>
+type ThunkType<ReturnType = void> = ThunkAction<Promise<ReturnType>, AppRootState, unknown, ActionsType>
+
 
 export const requestCourses = (): ThunkType => {
 
@@ -181,13 +183,17 @@ export const requestCourses = (): ThunkType => {
         try {
             dispatch(setLoadingAC(true));
             let res = await coursesAPI.getCourses();
-            debugger
+
             if (res.status === ResponseStatus.OK) {
                 dispatch(setCoursesAC(res.data));
             } else {
                 toast.error(`Не удалось загрузить данные: ${res.status}`)
             }
         } catch (e: unknown) {
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
@@ -211,6 +217,10 @@ export const requestCourse = (courseId: string): ThunkType => {
                 }));
             }
         } catch (e: unknown) {
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
@@ -235,6 +245,10 @@ export const requestCoursesDirections = (): ThunkType => {
             }
 
         } catch (e: unknown) {
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
@@ -249,10 +263,7 @@ export const requestCreateCourse = (directionId: number,
                                     courseTitle: string,
                                     content: IContentBlock[],
                                     studyTime: string,
-                                    hasTest: boolean,
-                                    testTitle: string,
-                                    questions: IQuestion[],
-                                    image: File): ThunkType => {
+                                    image: File): ThunkType<string | undefined> => {
     return async (dispatch, getState) => {
         try {
             dispatch(setLoadingAC(true));
@@ -263,8 +274,6 @@ export const requestCreateCourse = (directionId: number,
                 courseContent: content,
                 studyTime: studyTime
             })
-
-            debugger
             const res = await coursesAPI.setImage(newCourseId, image)
             if (res.status === ResponseStatus.BAD_REQUEST) {
                 return;
@@ -281,12 +290,13 @@ export const requestCreateCourse = (directionId: number,
 
             dispatch(addCourseAction);
 
-            if (hasTest) {
-                //await dispatch(createCustomTest(newCourse.id, testTitle, questions));
-            }
-
+            return newCourseId;
         } catch (e: unknown) {
-            debugger
+
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }

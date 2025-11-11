@@ -1,16 +1,16 @@
-import {v1} from "uuid";
 import {ICustomTestsState} from "../interfaces/ICustomTestsState";
 import {IQuestion} from "../interfaces/IQuestion";
 import {ThunkAction} from "@reduxjs/toolkit";
 import {AppRootState} from "./store";
-import {coursesAPI, ResponseStatus} from "./api";
+import {coursesAPI, parseAxiosError, ResponseStatus} from "./api";
 import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 import toast from "react-hot-toast";
 import {ICustomTest} from "../interfaces/ICustomTest";
+import axios from "axios";
 
 export type AddCustomTestAction = {
     type: "ADD-CUSTOM-TEST"
-    id: string;
+    id: number;
     courseId: string;
     title: string;
     questions: IQuestion[];
@@ -48,8 +48,8 @@ export const customTestReducer = (state: ICustomTestsState = initialState, actio
     }
 }
 
-export const addCustomTestAC = (courseId: string, title: string, questions: IQuestion[]): AddCustomTestAction => {
-    return {type: "ADD-CUSTOM-TEST", id: v1(), courseId: courseId, title: title, questions: questions};
+export const addCustomTestAC = (testId: number, courseId: string, title: string, questions: IQuestion[]): AddCustomTestAction => {
+    return {type: "ADD-CUSTOM-TEST", id: testId, courseId: courseId, title: title, questions: questions};
 }
 
 const setCustomTestsAC = (customTests: ICustomTest[]): SetCustomTestsAction => {
@@ -62,18 +62,19 @@ export const createCustomTest = (courseId: string, title: string, questions: IQu
     return async (dispatch, getState) => {
         try {
             dispatch(setLoadingAC(true));
-            const ac = addCustomTestAC(courseId, title, questions);
+            debugger
             let data = await coursesAPI.createCustomTest({
-                id: ac.id,
-                courseId: ac.courseId,
-                title: ac.title,
-                questions: ac.questions,
+                courseId: courseId,
+                title: title,
+                questions: questions,
             });
 
-            if (data.status === ResponseStatus.CREATED) {
-                dispatch(ac)
-            }
+            dispatch(addCustomTestAC(data.id, data.courseId, data.title, data.questions))
         } catch (e: unknown) {
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
@@ -96,6 +97,10 @@ export const requestCustomTests = (): ThunkType => {
             }
 
         } catch (e: unknown) {
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }

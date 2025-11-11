@@ -34,13 +34,13 @@ export const Filter = (props: IFilterProps) => {
     }
 
     const hasTestChangeHandler = (newHasTest: boolean) => {
-        debugger
+
         setHasTest(newHasTest)
         dispatch(changeCoursesFilterAC(directionId, newHasTest, timeFilter))
     }
 
     const onAllClickHandler = () => {
-        debugger
+
         setTimeFilter("all")
         dispatch(changeCoursesFilterAC(directionId, hasTest, "all"))
     }

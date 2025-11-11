@@ -1,7 +1,7 @@
 import {IQuestion} from "./IQuestion";
 
 export interface ICustomTest {
-    id: string;
+    id: number;
     courseId: string;
     title: string;
     questions: IQuestion[];
