@@ -26,7 +26,7 @@ export const CreateCourse = () => {
     const [hasTest, setHasTest] = useState(false);
     const [questions, setQuestions] = useState<IQuestion[]>([]);
     const [testTitle, setTestTitle] = useState<string>("");
-    const [coverImg, setCoverImg] = useState<string>("");
+    const [coverImg, setCoverImg] = useState<File | null>(null);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [studyTime, setStudyTime] = React.useState<StudyTime>(StudyTime.LESS_THAN_15)
     const dispatch = useAppDispatch();
@@ -40,14 +40,16 @@ export const CreateCourse = () => {
         setDirectionId(directionId)
     }, [])
 
-    const onSaveHandler = (): void => {
-
+    const onSaveHandler = async (): Promise<void> => {
         if (!validateData()) {
             return;
         }
-        dispatch(requestCreateCourse(directionId, courseTitle, blocks, studyTime, coverImg, hasTest, testTitle, questions))
-        navigate("/courses")
-
+        try {
+            await dispatch(requestCreateCourse(directionId, courseTitle, blocks, studyTime, hasTest, testTitle, questions, coverImg!))
+            navigate("/courses")
+        }catch (error) {
+            console.log(error);
+        }
     }
 
     const validateData = (): boolean => {
@@ -55,7 +57,7 @@ export const CreateCourse = () => {
 
         if (!courseTitle.trim()) newErrors.courseTitle = "Введите название курса";
         if (!directionId) newErrors.direction = "Выберите тематику";
-        if (!coverImg.trim()) newErrors.coverImg = "Выберите изображение";
+        if (!coverImg || coverImg.size === 0) newErrors.coverImg = "Выберите изображение";
         if (blocks.length === 0) newErrors.blocks = "Блоки информации должны быть заполнены";
 
         if (hasTest) {

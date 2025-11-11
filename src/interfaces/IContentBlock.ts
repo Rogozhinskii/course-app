@@ -1,5 +1,6 @@
-export interface IContentBlock {
-    id: string;
+import {IHasId} from "../dto/IHasId";
+
+export interface IContentBlock extends IHasId {
     title: string;
     content: string;
 }

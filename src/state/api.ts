@@ -4,11 +4,14 @@ import {IDirectionInfo} from "../interfaces/IDirectionInfo";
 import {ICustomTest} from "../interfaces/ICustomTest";
 import {ICourseType} from "../interfaces/ICourseType";
 import {ICourseDirection} from "../interfaces/ICourseDirection";
+import {ICreateCourseDto} from "../dto/ICreateCourseDto";
+import {ICourseDto} from "../dto/ICourseDto";
 
 
 export enum ResponseStatus {
     OK = 200,
     CREATED = 201,
+    BAD_REQUEST = 400,
 }
 
 const instanse = axios.create({
@@ -19,13 +22,30 @@ const instanse = axios.create({
 export const ImageUrl = `${config.apiConfig.baseUrl}/static`;
 
 export const coursesAPI = {
-    getCourses(){
+    getCourses() {
         return instanse.get<ICourseType[]>('/courses')
     },
 
-    createCourse(course: ICourseType){
-        return instanse.post<ICourseType>(`/courses`, course)
+    createCourse(course: ICreateCourseDto): Promise<string> {
+        return instanse.post<string>(`/courses`, course)
             .then(res => res.data);
+    },
+
+    getCourseById(id: string): Promise<ICourseDto> {
+        return instanse.get<ICourseDto>(`/courses/${id}`)
+            .then(res => res.data);
+    },
+
+    setImage(courseId: string, image: File) {
+        const formData = new FormData();
+        formData.append("courseId", courseId);
+        formData.append("image", image);
+
+        return instanse.post("/courses/save-image", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        });
     },
 
     getDirectionsInfos() {
@@ -35,15 +55,17 @@ export const coursesAPI = {
             })
     },
 
-    createCustomTest(data: ICustomTest){
+    createCustomTest(data: ICustomTest) {
         return instanse.post('/customTest', data).then(res => res.data);
     },
 
-    getCustomTests(){
+    getCustomTests() {
         return instanse.get<ICustomTest[]>(`/customTest`)
     },
 
-    getCoursesDirections(){
+    getCoursesDirections() {
         return instanse.get<ICourseDirection[]>("/course-direction")
     }
 }
+
+

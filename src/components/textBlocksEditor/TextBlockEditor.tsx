@@ -21,7 +21,7 @@ export const TextBlockEditor = (props: ITextBlockEditorProps) => {
 
     const addBlockHandler = () => {
         const updated: IContentBlock[] = [...blocks, {
-            id: v1(),
+            id: uuidToHash(v1()),
             title: "",
             content: "",
         }];
@@ -29,13 +29,22 @@ export const TextBlockEditor = (props: ITextBlockEditorProps) => {
         props.onContentChanged(updated);
     }
 
-    const updateBlockHandler = (blockId: string, field: "title" | "content", value: string) => {
+    function uuidToHash(uuid: string): number {
+        let hash = 0;
+        for (let i = 0; i < uuid.length; i++) {
+            hash = (hash << 5) - hash + uuid.charCodeAt(i);
+            hash |= 0;
+        }
+        return Math.abs(hash);
+    }
+
+    const updateBlockHandler = (blockId: number, field: "title" | "content", value: string) => {
         const updated = blocks.map(b => b.id === blockId ? {...b, [field]: value} : b);
         setBlocks(updated);
         props.onContentChanged(updated);
     }
 
-    const removeBlockHandler = (blockId: string) => {
+    const removeBlockHandler = (blockId: number) => {
         const updated = blocks.filter(b => b.id !== blockId)
         setBlocks(updated);
         props.onContentChanged(updated);

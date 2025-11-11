@@ -11,6 +11,7 @@ export interface ITextAreaProps extends ITextFielBaseProps {
     rows: number;
 }
 
-export interface ImageInputProps extends ITextFielBaseProps  {
-
+export interface ImageInputProps {
+    onContentChanged: (file: File) => void;
+    error?: string;
 }

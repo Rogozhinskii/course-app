@@ -22,16 +22,9 @@ export const ImageInput= (props: ImageInputProps) => {
             setFileLoaded(true);
             return;
         }
-
+        setFileLoaded(true);
         setError(null);
-
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const base64 = reader.result as string;
-            props.onContentChanged(base64);
-            setFileLoaded(true);
-        };
-        reader.readAsDataURL(file);
+        props.onContentChanged(file);
     };
 
     const handleDrop = (e: DragEvent<HTMLDivElement>) => {

@@ -9,6 +9,7 @@ export const CourseCard = (props: ICourseCardProps) => {
 
     const imageUrl = `${ImageUrl}/${props.image}`
 
+    debugger
     return (
         <NavLink to={`/course/${props.id}`}>
             <li className="course">

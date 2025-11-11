@@ -46,13 +46,19 @@ type ChangeCoursesFilter = {
     hasTest: boolean
 }
 
+type SetOrUpdateCourseAction = {
+    type: "SET-OR-UPDATE-COURSE"
+    course: ICourseType
+}
+
 type ActionsType =
     SetCoursesActionType
     | AddCourseAction
     | EditCourseAction
     | SetLoadingAction
     | SetCoursesDirectionsAction
-    | ChangeCoursesFilter;
+    | ChangeCoursesFilter
+    | SetOrUpdateCourseAction;
 
 
 export type CoursesStateType = {
@@ -89,6 +95,18 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                 }, ...stateCopy.courses]
             return stateCopy
         }
+        case "SET-OR-UPDATE-COURSE":{
+            const stateCopy = {...state}
+            const courses = [...stateCopy.courses]
+            const index = courses.findIndex(c => c.id === action.course.id);
+            if (index !== -1) {
+                courses[index] = action.course;
+            } else {
+                courses.push(action.course);
+            }
+            stateCopy.courses = courses;
+            return stateCopy
+        }
         case "SET-COURSES-DIRECTIONS": {
             return {
                 ...state,
@@ -123,10 +141,10 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
     }
 }
 
-export const addCourseAC = (directionId: number, title: string, content: IContentBlock[], studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
+export const addCourseAC = (courseId: string, directionId: number, title: string, content: IContentBlock[], studyTime: string, image: string, hasTest: boolean): AddCourseAction => {
     return {
         type: "ADD-COURSE",
-        id: v1(),
+        id: courseId,
         directionId: directionId,
         title: title,
         content: content,
@@ -148,6 +166,11 @@ export const changeCoursesFilterAC = (directionId: number, hasTest: boolean, tim
     return {type: "CHANGE-COURSES-FILTER", directionId: directionId, timeFilter: timeFilter, hasTest: hasTest};
 }
 
+export const setOrUpdateCourseAC = (course: ICourseType) : SetOrUpdateCourseAction => {
+    return { type: "SET-OR-UPDATE-COURSE", course: course }
+
+}
+
 
 type ThunkType = ThunkAction<Promise<void>, AppRootState, unknown, ActionsType>
 
@@ -158,6 +181,7 @@ export const requestCourses = (): ThunkType => {
         try {
             dispatch(setLoadingAC(true));
             let res = await coursesAPI.getCourses();
+            debugger
             if (res.status === ResponseStatus.OK) {
                 dispatch(setCoursesAC(res.data));
             } else {
@@ -173,6 +197,30 @@ export const requestCourses = (): ThunkType => {
 
     }
 }
+
+export const requestCourse = (courseId: string): ThunkType => {
+
+    return async (dispatch, getState) => {
+
+        try {
+            dispatch(setLoadingAC(true));
+            let res = await coursesAPI.getCourseById(courseId);
+            if (res) {
+                dispatch(setOrUpdateCourseAC({...res,
+                    content: res.courseContent
+                }));
+            }
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                toast.error(`Ошибка: ${e.message}`);
+            }
+        } finally {
+            dispatch(setLoadingAC(false));
+        }
+
+    }
+}
+
 
 export const requestCoursesDirections = (): ThunkType => {
     return async (dispatch, getState) => {
@@ -201,31 +249,44 @@ export const requestCreateCourse = (directionId: number,
                                     courseTitle: string,
                                     content: IContentBlock[],
                                     studyTime: string,
-                                    coverImg: string,
                                     hasTest: boolean,
                                     testTitle: string,
-                                    questions: IQuestion[]): ThunkType => {
+                                    questions: IQuestion[],
+                                    image: File): ThunkType => {
     return async (dispatch, getState) => {
         try {
             dispatch(setLoadingAC(true));
-            const addCourseAction = addCourseAC(directionId, courseTitle, content, studyTime, coverImg, hasTest)
-            await coursesAPI.createCourse({
-                id: addCourseAction.id,
-                directionId: addCourseAction.directionId,
-                title: addCourseAction.title,
-                content: addCourseAction.content,
-                studyTime: addCourseAction.studyTime,
-                image: addCourseAction.image,
-                hasTest: addCourseAction.hasTest,
+
+            const newCourseId = await coursesAPI.createCourse({
+                directionId: directionId,
+                title: courseTitle,
+                courseContent: content,
+                studyTime: studyTime
             })
+
+            debugger
+            const res = await coursesAPI.setImage(newCourseId, image)
+            if (res.status === ResponseStatus.BAD_REQUEST) {
+                return;
+            }
+
+            const newCourse = await coursesAPI.getCourseById(newCourseId)
+            const addCourseAction = addCourseAC(newCourse.id,
+                newCourse.directionId,
+                newCourse.title,
+                newCourse.courseContent,
+                newCourse.studyTime,
+                newCourse.image,
+                newCourse.hasTest)
 
             dispatch(addCourseAction);
 
             if (hasTest) {
-                await dispatch(createCustomTest(addCourseAction.id, testTitle, questions));
+                //await dispatch(createCustomTest(newCourse.id, testTitle, questions));
             }
 
         } catch (e: unknown) {
+            debugger
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
