@@ -144,11 +144,9 @@ export const requestFilterCourses= (filter: IFilterDto) : ThunkType =>{
         try {
             dispatch(setLoadingAC(true));
             const filtered = await coursesAPI.getFilteredCourses(filter);
-            debugger
             dispatch(setCoursesAC(filtered.data));
 
         }catch(e: unknown){
-            debugger
             if(axios.isAxiosError(e)) {
                 toast.error(parseAxiosError(e))
                 return
