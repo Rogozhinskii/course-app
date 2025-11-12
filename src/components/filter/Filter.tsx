@@ -2,8 +2,8 @@ import {useCallback, useEffect, useState} from "react";
 import {Checkbox} from "../checkbox/Checkbox";
 import {StudyTime} from "../../interfaces/StudyTime";
 import {useAppDispatch, useAppSelector} from "../../state/store";
-import {changeCoursesFilterAC, requestCoursesDirections} from "../../state/courses-reducer";
-import {AllDirection, ICourseDirection} from "../../interfaces/ICourseDirection";
+import {requestCourses, requestCoursesDirections, requestFilterCourses} from "../../state/courses-reducer";
+import { ICourseDirection} from "../../interfaces/ICourseDirection";
 
 import "./style.css"
 
@@ -16,9 +16,8 @@ interface IFilterProps {
 export const Filter = (props: IFilterProps) => {
 
     const dispatch = useAppDispatch();
-    const [hasTest, setHasTest] = useState(false);
-    const [timeFilter, setTimeFilter] = useState<TimeFilterType>("all")
-    const [directionId, setDirectionId] = useState<number>(AllDirection)
+    const [hasTest, setHasTest] = useState<boolean|null>(null);
+    const [timeFilter, setTimeFilter] = useState<TimeFilterType|null>(null)
     const [selectedId, setSelectedId] = useState<number|null>(null)
 
     useEffect(() => {
@@ -28,39 +27,38 @@ export const Filter = (props: IFilterProps) => {
     const directions = useAppSelector(state => state.coursesState.directions);
 
     const directionChangeHandler = (e: React.MouseEvent<HTMLLIElement>, newDirectionId: number) => {
-        setDirectionId(newDirectionId)
         setSelectedId(newDirectionId)
-        dispatch(changeCoursesFilterAC(newDirectionId, hasTest, timeFilter))
+        dispatch(requestFilterCourses({ studyTime: timeFilter ?? undefined, directionId: newDirectionId, hasTest: !!hasTest }))
     }
 
     const hasTestChangeHandler = (newHasTest: boolean) => {
 
         setHasTest(newHasTest)
-        dispatch(changeCoursesFilterAC(directionId, newHasTest, timeFilter))
+        dispatch(requestFilterCourses({ studyTime: timeFilter ?? undefined, directionId: selectedId ?? undefined, hasTest: newHasTest }))
     }
 
     const onAllClickHandler = () => {
-
-        setTimeFilter("all")
-        dispatch(changeCoursesFilterAC(directionId, hasTest, "all"))
+        setTimeFilter(null)
+        setSelectedId(null)
+        setHasTest(null)
+        dispatch(requestFilterCourses({ studyTime: undefined, directionId: undefined, hasTest: undefined }))
     }
 
     const onLess15ClickHandler = () => {
         setTimeFilter(StudyTime.LESS_THAN_15)
-        dispatch(changeCoursesFilterAC(directionId, hasTest, StudyTime.LESS_THAN_15))
+        dispatch(requestFilterCourses({ studyTime: StudyTime.LESS_THAN_15, directionId: selectedId ?? undefined, hasTest: hasTest ?? undefined }))
     }
 
     const onMore15ClickHandler = () => {
         setTimeFilter(StudyTime.MORE_THAN_15)
-        dispatch(changeCoursesFilterAC(directionId, hasTest, StudyTime.MORE_THAN_15))
+        dispatch(requestFilterCourses({ studyTime: StudyTime.MORE_THAN_15, directionId: selectedId ?? undefined, hasTest: hasTest ?? undefined }))
     }
 
     const onResetFilter =useCallback(() => {
-        setTimeFilter("all")
-        setDirectionId(AllDirection)
-        setHasTest(false)
+        setTimeFilter(null)
+        setHasTest(null)
         setSelectedId(null)
-        dispatch(changeCoursesFilterAC(AllDirection, false, "all"))
+        dispatch(requestCourses())
     }, [dispatch]);
 
 
@@ -82,7 +80,7 @@ export const Filter = (props: IFilterProps) => {
             </ul>
             <h5 className="filter-title">Время прочтения</h5>
             <div className="time-filter">
-                <button className={timeFilter === "all" ? "btn btn-filter" : "btn-outline btn-filter"}
+                <button className={timeFilter === null ? "btn btn-filter" : "btn-outline btn-filter"}
                         onClick={onAllClickHandler}>All
                 </button>
                 <button

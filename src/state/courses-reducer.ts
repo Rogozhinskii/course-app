@@ -6,12 +6,11 @@ import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 import {ICourseType} from "../interfaces/ICourseType";
 import {AllDirection, ICourseDirection} from "../interfaces/ICourseDirection";
 import toast from "react-hot-toast";
-import {IQuestion} from "../interfaces/IQuestion";
-import {createCustomTest} from "./customTest-reducer";
 import {IContentBlock} from "../interfaces/IContentBlock";
 import {TimeFilterType} from "../components/filter/Filter";
 import {StudyTime} from "../interfaces/StudyTime";
 import axios from "axios";
+import {IFilterDto} from "../interfaces/IFilterDto";
 
 
 export type AddCourseAction = {
@@ -40,13 +39,6 @@ type SetCoursesDirectionsAction = {
     directions: ICourseDirection[]
 }
 
-type ChangeCoursesFilter = {
-    type: "CHANGE-COURSES-FILTER"
-    directionId: number
-    timeFilter: TimeFilterType
-    hasTest: boolean
-}
-
 type SetOrUpdateCourseAction = {
     type: "SET-OR-UPDATE-COURSE"
     course: ICourseType
@@ -58,7 +50,6 @@ type ActionsType =
     | EditCourseAction
     | SetLoadingAction
     | SetCoursesDirectionsAction
-    | ChangeCoursesFilter
     | SetOrUpdateCourseAction;
 
 
@@ -114,29 +105,6 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                 directions: action.directions
             }
         }
-        case "CHANGE-COURSES-FILTER": {
-            let filtered = action.directionId !== AllDirection
-                ? state.courses.filter(course => course.directionId === action.directionId
-                    && course.hasTest === action.hasTest)
-                : state.courses.filter(course => course.hasTest === action.hasTest);
-
-            if (action.timeFilter !== "all") {
-                filtered = filtered.filter(course => {
-                    if (action.timeFilter === StudyTime.LESS_THAN_15) {
-                        return course.studyTime === StudyTime.LESS_THAN_15;
-                    }
-                    if (action.timeFilter === StudyTime.MORE_THAN_15) {
-                        return course.studyTime === StudyTime.MORE_THAN_15;
-                    }
-                    return true;
-                });
-            }
-            return {
-                ...state,
-                filteredCourses: filtered
-            }
-
-        }
         default:
             return state;
     }
@@ -163,10 +131,6 @@ export const setCoursesDirectionsAC = (directions: ICourseDirection[]): SetCours
     return {type: "SET-COURSES-DIRECTIONS", directions: directions}
 }
 
-export const changeCoursesFilterAC = (directionId: number, hasTest: boolean, timeFilter: TimeFilterType): ChangeCoursesFilter => {
-    return {type: "CHANGE-COURSES-FILTER", directionId: directionId, timeFilter: timeFilter, hasTest: hasTest};
-}
-
 export const setOrUpdateCourseAC = (course: ICourseType) : SetOrUpdateCourseAction => {
     return { type: "SET-OR-UPDATE-COURSE", course: course }
 
@@ -175,6 +139,29 @@ export const setOrUpdateCourseAC = (course: ICourseType) : SetOrUpdateCourseActi
 
 type ThunkType<ReturnType = void> = ThunkAction<Promise<ReturnType>, AppRootState, unknown, ActionsType>
 
+export const requestFilterCourses= (filter: IFilterDto) : ThunkType =>{
+    return async (dispatch, getState) => {
+        try {
+            dispatch(setLoadingAC(true));
+            const filtered = await coursesAPI.getFilteredCourses(filter);
+            debugger
+            dispatch(setCoursesAC(filtered.data));
+
+        }catch(e: unknown){
+            debugger
+            if(axios.isAxiosError(e)) {
+                toast.error(parseAxiosError(e))
+                return
+            }
+            if (e instanceof Error) {
+                toast.error(`Ошибка: ${e.message}`);
+            }
+        }
+        finally {
+            dispatch(setLoadingAC(false));
+        }
+    }
+}
 
 export const requestCourses = (): ThunkType => {
 

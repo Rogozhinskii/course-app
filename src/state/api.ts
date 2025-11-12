@@ -8,6 +8,7 @@ import {ICreateCourseDto} from "../dto/ICreateCourseDto";
 import {ICourseDto} from "../dto/ICourseDto";
 import {ICreateCustomTestDto} from "../dto/customTest/CreateCustomTestDto";
 import {createSlice} from "@reduxjs/toolkit";
+import {IFilterDto} from "../interfaces/IFilterDto";
 
 
 export enum ResponseStatus {
@@ -68,6 +69,15 @@ export const coursesAPI = {
 
     getCoursesDirections() {
         return instanse.get<ICourseDirection[]>("/course-direction")
+    },
+    getFilteredCourses(dto: IFilterDto){
+        return instanse.get<ICourseType[]>('/courses/filter', {
+            params: {
+                directionId: dto.directionId,
+                hasTest: dto.hasTest,
+                studyTime: dto.studyTime,
+            }
+        })
     }
 }
 
