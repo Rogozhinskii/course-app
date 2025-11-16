@@ -16,6 +16,8 @@ import {TextBlockEditor} from "../textBlocksEditor/TextBlockEditor";
 import {IContentBlock} from "../../interfaces/IContentBlock";
 import {AllDirection} from "../../interfaces/ICourseDirection";
 import {createCustomTest} from "../../state/customTest-reducer";
+import {useAuth} from "../../context/useAuth";
+import toast from "react-hot-toast";
 
 
 export const CreateCourse = () => {
@@ -31,6 +33,7 @@ export const CreateCourse = () => {
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [studyTime, setStudyTime] = React.useState<StudyTime>(StudyTime.LESS_THAN_15)
     const dispatch = useAppDispatch();
+    const {auth} = useAuth()
 
 
     const setCourseStudyTime = (studyTime: StudyTime) => {
@@ -46,14 +49,22 @@ export const CreateCourse = () => {
             return;
         }
         try {
-            const newCourseId =  await dispatch(requestCreateCourse(directionId, courseTitle, blocks, studyTime, coverImg!))
+            if(!auth){
+                throw Error("User context is null");
+            }
+            const newCourseId =  await dispatch(requestCreateCourse(auth.userId, directionId, courseTitle, blocks, studyTime, coverImg!))
 
             if(newCourseId && hasTest){
                 dispatch(createCustomTest(newCourseId, testTitle, questions))
             }
             navigate("/courses")
-        }catch (error) {
-            console.log(error);
+        }catch(err: unknown) {
+            if(err instanceof Error){
+                toast.error(err.message)
+            }
+            else {
+                toast.error("Ошибка создания материалов.")
+            }
         }
     }
 

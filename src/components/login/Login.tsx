@@ -37,6 +37,7 @@ export const Login = () => {
                 password: pwd,
             })
             setAuth({
+                userId: response.userId,
                 email: email,
                 roles: response?.roles
             })

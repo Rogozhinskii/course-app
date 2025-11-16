@@ -1,7 +1,5 @@
 import React from 'react';
 import "./styles/main.css"
-import {Navbar} from "./components/navbar/Navbar";
-import {Footer} from "./components/footer/Footer";
 import {Home} from "./pages/Home";
 import {Courses} from "./pages/Courses";
 import {CourseInfo} from "./pages/CourseInfo";

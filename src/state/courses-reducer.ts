@@ -242,7 +242,8 @@ export const requestCoursesDirections = (): ThunkType => {
     }
 }
 
-export const requestCreateCourse = (directionId: number,
+export const requestCreateCourse = (authorId: number,
+                                     directionId: number,
                                     courseTitle: string,
                                     content: IContentBlock[],
                                     studyTime: string,
@@ -252,6 +253,7 @@ export const requestCreateCourse = (directionId: number,
             dispatch(setLoadingAC(true));
 
             const newCourseId = await coursesAPI.createCourse({
+                authorId: authorId,
                 directionId: directionId,
                 title: courseTitle,
                 courseContent: content,

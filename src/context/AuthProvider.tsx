@@ -14,29 +14,39 @@ interface IAuthProviderProps {
 interface IAuthContextType {
     auth: IAuthUser | null;
     setAuth: React.Dispatch<React.SetStateAction<IAuthUser | null>>;
+    loadingAuth: boolean;
 }
 
 export const AuthProvider = ({children}: IAuthProviderProps) => {
     const [auth, setAuth] = useState<IAuthUser | null>(null)
+    const [loadingAuth, setLoadingAuth] = useState<boolean>(true);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(setLoadingAC(true))
-        coursesAPI.me()
-            .then(user => {
+        const fetchMe = async () => {
+            dispatch(setLoadingAC(true))
+            setLoadingAuth(true)
+            try {
+                const user = await coursesAPI.me();
                 setAuth({
+                    userId: user.id,
                     email: user.email,
-                    roles: user.roles.map((r:any) => r.name)
-                })
-                console.log(user);
-            })
-            .catch(() => setAuth(null))
-            .finally(() => dispatch(setLoadingAC(false)))
-    }, [])
+                    roles: user.roles.map((r: any) => r.name),
+                });
+
+            } catch {
+                setAuth(null);
+            } finally {
+                dispatch(setLoadingAC(false));
+                setLoadingAuth(false);
+            }
+        }
+        fetchMe();
+    }, [dispatch])
 
 
     return (
-        <AuthContext.Provider value={{auth, setAuth}}>
+        <AuthContext.Provider value={{auth, setAuth, loadingAuth}}>
             {children}
         </AuthContext.Provider>
     )

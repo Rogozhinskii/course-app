@@ -7,14 +7,32 @@ export interface IRequireAuthProps {
 }
 
 export const RequireAuth = (props: IRequireAuthProps) => {
-    const {auth} = useAuth();
+    const {auth, loadingAuth} = useAuth();
     const location = useLocation();
 
-    return (
-        auth?.roles?.find(role => props.allowedRoles.includes(role))
-            ? <Outlet/>
-            : auth?.email
-                ? <Navigate to="/unauthorized" state={{from: location}} replace/>
-                : <Navigate to="/login" state={{from: location}} replace/>
-    )
+    if (loadingAuth) {
+        return null
+    }
+
+    if (!auth) {
+        return (
+            <Navigate
+                to="/login"
+                state={{from: location}}
+                replace
+            />
+        );
+    }
+
+    const hasRole = auth.roles.some(role => props.allowedRoles.includes(role));
+    if (!hasRole) {
+        return (
+            <Navigate
+                to="/unauthorized"
+                state={{from: location}}
+                replace
+            />
+        );
+    }
+    return <Outlet/>;
 }

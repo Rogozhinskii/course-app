@@ -28,6 +28,9 @@ export const Navbar = () => {
                         <li className="nav-list__item">
                             <NavLink to="/contacts" className={({isActive}) => getClassName(isActive)}>Контакты</NavLink>
                         </li>
+                        <li className="nav-list__item">
+                            <NavLink to="/login" className={({isActive}) => getClassName(isActive)}>Войти</NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>
