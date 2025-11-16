@@ -7,7 +7,6 @@ import {ICourseDirection} from "../interfaces/ICourseDirection";
 import {ICreateCourseDto} from "../dto/ICreateCourseDto";
 import {ICourseDto} from "../dto/ICourseDto";
 import {ICreateCustomTestDto} from "../dto/customTest/CreateCustomTestDto";
-import {createSlice} from "@reduxjs/toolkit";
 import {IFilterDto} from "../interfaces/IFilterDto";
 import {IRegisterUserDto} from "../dto/IRegisterUserDto";
 import {IAuthUser} from "../interfaces/IAuthUser";
@@ -91,6 +90,11 @@ export const coursesAPI = {
 
     login(user: IRegisterUserDto):Promise<IAuthUser> {
         return instanse.post<IAuthUser>("/auth/login", user)
+            .then(res => res.data);
+    },
+
+    me(){
+        return instanse.get("/auth/me")
             .then(res => res.data);
     }
 }

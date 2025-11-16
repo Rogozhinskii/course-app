@@ -10,7 +10,7 @@ export const CourseCard = (props: ICourseCardProps) => {
     const imageUrl = `${ImageUrl}/${props.image}`
 
     return (
-        <NavLink to={`/course/${props.id}`}>
+        <NavLink to={`/courses/${props.id}`}>
             <li className="course">
                 <img className="course__image" src={imageUrl} alt="project img"/>
                 <h3 className="course__title">{props.title}</h3>

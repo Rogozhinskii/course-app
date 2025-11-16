@@ -24,7 +24,7 @@ export const Courses = () => {
                     <div className="courses-container">
                         <div className="courses-title-wrapper">
                             <h2 className="title-1">Курсы</h2>
-                            <NavLink className="btn btn-create" to="/course/create">Создать</NavLink>
+                            <NavLink className="btn btn-create" to="/courses/create">Создать</NavLink>
                         </div>
                         <ul className="courses">
                             {

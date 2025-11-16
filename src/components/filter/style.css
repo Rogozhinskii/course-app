@@ -47,7 +47,7 @@
 }
 
 .btn-filter {
-    padding: 8px 8px;
+    padding: 8px 8px !important;
     width: 62px;
 
     border-radius: 10px;

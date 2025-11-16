@@ -5,7 +5,6 @@ import "./style.css"
 import {NavLink} from "react-router-dom";
 import {coursesAPI, parseAxiosError} from "../../state/api";
 import axios from "axios";
-import toast from "react-hot-toast";
 
 const USER_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
