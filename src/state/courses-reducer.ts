@@ -4,13 +4,11 @@ import {AppRootState} from "./store";
 import {coursesAPI, parseAxiosError, ResponseStatus} from "./api";
 import {setLoadingAC, SetLoadingAction} from "./app-reducer";
 import {ICourseType} from "../interfaces/ICourseType";
-import {AllDirection, ICourseDirection} from "../interfaces/ICourseDirection";
 import toast from "react-hot-toast";
 import {IContentBlock} from "../interfaces/IContentBlock";
-import {TimeFilterType} from "../components/filter/Filter";
-import {StudyTime} from "../interfaces/StudyTime";
 import axios from "axios";
 import {IFilterDto} from "../interfaces/IFilterDto";
+import {ICourseDirection} from "../interfaces/ICourseDirection";
 
 
 export type AddCourseAction = {
@@ -87,7 +85,7 @@ export const coursesReducer = (state = initialState, action: ActionsType): Cours
                 }, ...stateCopy.courses]
             return stateCopy
         }
-        case "SET-OR-UPDATE-COURSE":{
+        case "SET-OR-UPDATE-COURSE": {
             const stateCopy = {...state}
             const courses = [...stateCopy.courses]
             const index = courses.findIndex(c => c.id === action.course.id);
@@ -131,31 +129,30 @@ export const setCoursesDirectionsAC = (directions: ICourseDirection[]): SetCours
     return {type: "SET-COURSES-DIRECTIONS", directions: directions}
 }
 
-export const setOrUpdateCourseAC = (course: ICourseType) : SetOrUpdateCourseAction => {
-    return { type: "SET-OR-UPDATE-COURSE", course: course }
+export const setOrUpdateCourseAC = (course: ICourseType): SetOrUpdateCourseAction => {
+    return {type: "SET-OR-UPDATE-COURSE", course: course}
 
 }
 
 
 type ThunkType<ReturnType = void> = ThunkAction<Promise<ReturnType>, AppRootState, unknown, ActionsType>
 
-export const requestFilterCourses= (filter: IFilterDto) : ThunkType =>{
+export const requestFilterCourses = (filter: IFilterDto): ThunkType => {
     return async (dispatch, getState) => {
         try {
             dispatch(setLoadingAC(true));
             const filtered = await coursesAPI.getFilteredCourses(filter);
             dispatch(setCoursesAC(filtered.data));
 
-        }catch(e: unknown){
-            if(axios.isAxiosError(e)) {
+        } catch (e: unknown) {
+            if (axios.isAxiosError(e)) {
                 toast.error(parseAxiosError(e))
                 return
             }
             if (e instanceof Error) {
                 toast.error(`Ошибка: ${e.message}`);
             }
-        }
-        finally {
+        } finally {
             dispatch(setLoadingAC(false));
         }
     }
@@ -175,7 +172,7 @@ export const requestCourses = (): ThunkType => {
                 toast.error(`Не удалось загрузить данные: ${res.status}`)
             }
         } catch (e: unknown) {
-            if(axios.isAxiosError(e)) {
+            if (axios.isAxiosError(e)) {
                 toast.error(parseAxiosError(e))
                 return
             }
@@ -197,12 +194,13 @@ export const requestCourse = (courseId: string): ThunkType => {
             dispatch(setLoadingAC(true));
             let res = await coursesAPI.getCourseById(courseId);
             if (res) {
-                dispatch(setOrUpdateCourseAC({...res,
+                dispatch(setOrUpdateCourseAC({
+                    ...res,
                     content: res.courseContent
                 }));
             }
         } catch (e: unknown) {
-            if(axios.isAxiosError(e)) {
+            if (axios.isAxiosError(e)) {
                 toast.error(parseAxiosError(e))
                 return
             }
@@ -230,7 +228,7 @@ export const requestCoursesDirections = (): ThunkType => {
             }
 
         } catch (e: unknown) {
-            if(axios.isAxiosError(e)) {
+            if (axios.isAxiosError(e)) {
                 toast.error(parseAxiosError(e))
                 return
             }
@@ -278,7 +276,7 @@ export const requestCreateCourse = (directionId: number,
             return newCourseId;
         } catch (e: unknown) {
 
-            if(axios.isAxiosError(e)) {
+            if (axios.isAxiosError(e)) {
                 toast.error(parseAxiosError(e))
                 return
             }

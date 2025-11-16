@@ -10,6 +10,7 @@ import {Contacts} from "./pages/Contacts";
 import {CreateCourse} from "./components/createCource/CreateCourse";
 import {LoadingOverlay} from "./components/loadingOverlay/LoadingOverlay";
 import {Toaster} from "react-hot-toast";
+import {Register} from "./components/register/Register";
 
 function App() {
     return (
@@ -17,11 +18,13 @@ function App() {
             <Router>
                 <Navbar/>
                 <Routes>
+
                     <Route path="/" element={<Home/>}/>
                     <Route path="/courses" element={<Courses />}/>
                     <Route path="/course/:id" element={<CourseInfo />}/>
                     <Route path="/course/create" element={<CreateCourse/>}/>
                     <Route path="/contacts" element={<Contacts/>}/>
+                    <Route path="/register" element={<Register/>}/>
                 </Routes>
                 <LoadingOverlay/>
                 <Footer/>

@@ -9,6 +9,7 @@ import {ICourseDto} from "../dto/ICourseDto";
 import {ICreateCustomTestDto} from "../dto/customTest/CreateCustomTestDto";
 import {createSlice} from "@reduxjs/toolkit";
 import {IFilterDto} from "../interfaces/IFilterDto";
+import {IRegisterUserDto} from "../dto/IRegisterUserDto";
 
 
 export enum ResponseStatus {
@@ -20,6 +21,7 @@ export enum ResponseStatus {
 const instanse = axios.create({
     baseURL: config.apiConfig.baseUrl,
     timeout: config.apiConfig.timeout,
+    withCredentials: true,
 })
 
 export const ImageUrl = `${config.apiConfig.baseUrl}/static`;
@@ -70,7 +72,7 @@ export const coursesAPI = {
     getCoursesDirections() {
         return instanse.get<ICourseDirection[]>("/course-direction")
     },
-    getFilteredCourses(dto: IFilterDto){
+    getFilteredCourses(dto: IFilterDto) {
         return instanse.get<ICourseType[]>('/courses/filter', {
             params: {
                 directionId: dto.directionId,
@@ -78,12 +80,33 @@ export const coursesAPI = {
                 studyTime: dto.studyTime,
             }
         })
+    },
+
+    /* register, login */
+    registerUser(user: IRegisterUserDto) {
+        return instanse.post<IRegisterUserDto>("/auth/registration", user)
+            .then(res => res.data);
     }
 }
 
 export function parseAxiosError(err: unknown): string {
     if (axios.isAxiosError(err)) {
-        return err.response?.data || err.message;
+        const data = err.response?.data;
+
+        if (typeof data === "string") {
+            return data;
+        }
+
+        if (data && typeof data === "object") {
+            if (typeof data.message === "string") {
+                return data.message;
+            }
+            if (Array.isArray(data.message)) {
+                return data.message.join(", ");
+            }
+        }
+
+        return err.message;
     }
     return "Неизвестная ошибка";
 }
