@@ -10,6 +10,7 @@ import {ICreateCustomTestDto} from "../dto/customTest/CreateCustomTestDto";
 import {createSlice} from "@reduxjs/toolkit";
 import {IFilterDto} from "../interfaces/IFilterDto";
 import {IRegisterUserDto} from "../dto/IRegisterUserDto";
+import {IAuthUser} from "../interfaces/IAuthUser";
 
 
 export enum ResponseStatus {
@@ -83,8 +84,13 @@ export const coursesAPI = {
     },
 
     /* register, login */
-    registerUser(user: IRegisterUserDto) {
-        return instanse.post<IRegisterUserDto>("/auth/registration", user)
+    registerUser(user: IRegisterUserDto) : Promise<string> {
+        return instanse.post<string>("/auth/registration", user)
+            .then(res => res.data);
+    },
+
+    login(user: IRegisterUserDto):Promise<IAuthUser> {
+        return instanse.post<IAuthUser>("/auth/login", user)
             .then(res => res.data);
     }
 }
@@ -100,6 +106,9 @@ export function parseAxiosError(err: unknown): string {
         if (data && typeof data === "object") {
             if (typeof data.message === "string") {
                 return data.message;
+            }
+            if(Array.isArray(data)) {
+                return data.join(", ");
             }
             if (Array.isArray(data.message)) {
                 return data.message.join(", ");

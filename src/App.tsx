@@ -11,20 +11,24 @@ import {CreateCourse} from "./components/createCource/CreateCourse";
 import {LoadingOverlay} from "./components/loadingOverlay/LoadingOverlay";
 import {Toaster} from "react-hot-toast";
 import {Register} from "./components/register/Register";
+import {Login} from "./components/login/Login";
 
 function App() {
     return (
         <div className="App">
             <Router>
-                <Navbar/>
-                <Routes>
 
+                <Routes>
+                    {/*публичные */}
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/courses" element={<Courses />}/>
-                    <Route path="/course/:id" element={<CourseInfo />}/>
-                    <Route path="/course/create" element={<CreateCourse/>}/>
-                    <Route path="/contacts" element={<Contacts/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/login" element={<Login/>}/>
+
+                    {/*авторизованные*/}
+                    <Route path="/courses" element={<Courses />}/>
+                    <Route path="/courses/:id" element={<CourseInfo />}/>
+                    <Route path="/courses/create" element={<CreateCourse/>}/>
+                    <Route path="/contacts" element={<Contacts/>}/>
                 </Routes>
                 <LoadingOverlay/>
                 <Footer/>

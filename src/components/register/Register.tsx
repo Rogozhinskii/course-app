@@ -65,19 +65,16 @@ export const Register = () => {
                 email: email,
                 password: pwd,
             })
-            console.log(response)
-            console.log(JSON.stringify(response))
             setSuccess(true);
             setEmail('');
             setPwd('');
             setMatchPwd('');
         } catch (err) {
             if (axios.isAxiosError(err)) {
-                setErrMsg(err?.response?.data.message)
+                setErrMsg(parseAxiosError(err))
             } else {
                 setErrMsg('Ошибка регистрации')
             }
-
             errRef?.current?.focus();
         }
     }
@@ -171,7 +168,7 @@ export const Register = () => {
                             </p>
 
                             <button type="submit" className="btn"
-                                    disabled={!validEmail || !validPwd || !validMatch}>Вход
+                                    disabled={!validEmail || !validPwd || !validMatch}>Регистрация
                             </button>
                         </form>
                         <p>
