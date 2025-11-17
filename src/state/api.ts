@@ -10,6 +10,7 @@ import {ICreateCustomTestDto} from "../dto/customTest/CreateCustomTestDto";
 import {IFilterDto} from "../interfaces/IFilterDto";
 import {IRegisterUserDto} from "../dto/IRegisterUserDto";
 import {IAuthUser} from "../interfaces/IAuthUser";
+import {UserWithCoursesDto} from "../interfaces/UserWithCoursesDto";
 
 
 export enum ResponseStatus {
@@ -80,6 +81,11 @@ export const coursesAPI = {
                 studyTime: dto.studyTime,
             }
         })
+    },
+
+    getUsersWithCourses(){
+        return instanse.get<UserWithCoursesDto[]>('/users/with_courses')
+            .then(res => res.data);
     },
 
     /* register, login */

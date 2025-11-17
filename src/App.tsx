@@ -12,6 +12,7 @@ import {Layout} from "./components/layout/Layout";
 import {RequireAuth} from "./components/requireAuth/RequireAuth";
 import {Roles} from "./interfaces/Roles";
 import {Unauthorized} from "./components/unauthorized/Unauthorized";
+import {AdminPanel} from "./components/adminPanel/AdminPanel";
 
 function App() {
     return (
@@ -32,7 +33,7 @@ function App() {
                     <Route path="/contacts" element={<Contacts/>}/>
 
                     <Route element={<RequireAuth allowedRoles={[Roles.Admin]}/>}>
-                        {/*<Route path="/admin" element={<Contacts/>}/> заменить на админа*/}
+                        <Route path="/admin-panel" element={<AdminPanel/>}/>
                     </Route>
                 </Route>
             </Route>
